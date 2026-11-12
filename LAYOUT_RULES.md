@@ -144,7 +144,22 @@ and a bent main line costs more than a bent branch.
    new line crosses nothing. A regulator of a reaction with an empty side stands in for that side.
    Otherwise the empty side is drawn as the SBGN source/sink symbol (∅).
 
-## H. Output
+## H. Notation (`--notation default | sbgn`)
+
+1. **SBGN boxes are nodes.** In SBGN notation the names sit inside the nodes. Overlap checks, label
+   placement and line ends use the real box outline instead of a circle. All rules in A–G still apply.
+2. **Box size is limited.** A box is at most `--box-max` px wide (default 110, plus up to 12 % for one
+   long word) and holds at most `--box-lines` lines. The name is wrapped first, with the longest line as
+   short as possible, breaking at spaces before hyphens and never leaving "3-" or "L-" alone on a line.
+   It is shortened with "…" only when it still doesn't fit.
+3. **Room for boxes.** Distances grow by 30 % (35 % on circles). Cofactor copies are stacked beside the
+   reaction axis so that they don't touch each other or the axis, whichever way the axis runs.
+
+## I. Output
+
+The output keeps the ids of the input SBML file: species and reactions in the SBML, and `bigg_id` in
+Escher. Species of one input file are never merged. Identical reactions of one file are drawn once but
+keep their own ids and glyphs.
 
 The SBML L3 file uses the Layout package: a copy is an extra speciesGlyph of the same species, one
 reaction glyph is written per drain, and modifiers are written with SBO terms. There is also an

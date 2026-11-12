@@ -17,6 +17,7 @@ from dataclasses import asdict, dataclass, field, replace
 
 import networkx as nx
 
+from . import sbgn
 from .known import find_main_path, norm_name, select_known_cycles
 from .model import DRAIN, EMPTY, Metabolite, Pathway, Roles, canonical, classify, looks_pseudo, sha
 
@@ -130,6 +131,11 @@ class Params:
     cycles: str = "known"            # circles for: "known" curated cycles (TCA, urea, ...), "all" loops, "none"
     label_max: int = 34              # longer names are shortened in labels
     label_mode: str = "name"         # "name" or "id"
+    notation: str = "default"        # "default" (small circles, names beside them) or "sbgn" (SBGN
+                                     # Process Description: names inside shapes, process nodes with ports)
+    box_max: float = 110.0           # sbgn: largest width of a name box (px); longer names wrap
+    box_lines: int = 2               # sbgn: at most this many lines per box, then the name is shortened
+    port: float = 0.0                # length of the process-node ports (set for sbgn)
 
 
 @dataclass
@@ -172,6 +178,8 @@ class Label:
     anchor: str = "start"   # text alignment within the box: start / middle / end (towards the node)
     leader: bool = False    # placed away from its node: draw a leader line
     node: Pt = (0.0, 0.0)   # centre of the labelled node
+    lines: tuple = ()       # sbgn: the name wrapped onto lines inside its box
+    inside: bool = False    # sbgn: the label is the text inside the node
 
 
 @dataclass
@@ -212,6 +220,32 @@ class Layout:
     @staticmethod
     def rg(rid: str) -> str:
         return f"RG_R_{rid}"
+
+    # node shapes ---------------------------------------------------------------
+    @property
+    def sbgn(self) -> bool:
+        return self.params.notation == "sbgn"
+
+    def met_dims(self, m: str) -> tuple:
+        """(width, height, lines, shape class) of a metabolite node"""
+        return node_dims(self.pathway, self.params, m, "main")
+
+    def clone_dims(self, c: "Clone") -> tuple:
+        if c.role.startswith("drain") or c.species == EMPTY:
+            r = self.params.clone_radius
+            return (2 * r, 2 * r, (), "circle")
+        kind = "copy" if c.far else "side"
+        if c.role == "modifier":     # enzyme / regulator copy: a full name box in sbgn
+            kind = "copy" if self.sbgn else "side"
+        return node_dims(self.pathway, self.params, c.species, kind)
+
+    def met_border(self, m: str, u: Pt) -> float:
+        w, h, _, cls = self.met_dims(m)
+        return shape_border(cls, w / 2, h / 2, u)
+
+    def clone_border(self, c: "Clone", u: Pt) -> float:
+        w, h, _, cls = self.clone_dims(c)
+        return shape_border(cls, w / 2, h / 2, u)
 
 
 @dataclass
@@ -431,6 +465,24 @@ def short_text(text: str, n: int) -> str:
     return text if len(text) <= n else text[: n - 1].rstrip(" ,-") + "…"
 
 
+def node_dims(pw: Pathway, P: "Params", mid: str, kind: str) -> tuple:
+    """(width, height, lines, shape class) of a node. default notation: circles; sbgn: a box sized
+    to the (wrapped, length-limited) name, shape by the species' SBO term"""
+    if P.notation != "sbgn" or mid == EMPTY or mid not in pw.metabolites:
+        r = P.met_radius if kind == "main" else P.clone_radius + (1.5 if kind == "copy" else 0.0)
+        return (2 * r, 2 * r, (), "circle")
+    text = display_name(pw, mid, replace(P, label_max=10 ** 6), clone=kind == "side")
+    cls = sbgn.entity_class(pw.metabolites[mid].sbo)
+    w, h, lines = sbgn.box(text, kind, cls, P.box_max, max(1, P.box_lines))
+    return (w, h, lines, cls)
+
+
+def shape_border(cls: str, hx: float, hy: float, u: Pt) -> float:
+    if cls == "circle":
+        return hx
+    return sbgn.border(cls, hx, hy, unit(u) if dot(u, u) > 0 else (1.0, 0.0))
+
+
 def display_name(pw: Pathway, mid: str, P: "Params", clone: bool = False) -> str:
     m = pw.metabolites[mid]
     if clone and pw.is_currency(mid):
@@ -502,6 +554,11 @@ def compute_layout(pw: Pathway, P: Params | None = None, previous: Previous | No
         P_meta = replace(P, density=1.0 / k_)
     else:
         P_meta = P
+    if P.notation == "sbgn":  # names inside the nodes: boxes need more room than small circles
+        P = replace(P, spacing=P.spacing * 1.3, cycle_spacing=P.cycle_spacing * 1.35,
+                    min_cycle_radius=P.min_cycle_radius * 1.3, parallel_step=P.parallel_step * 1.3,
+                    met_radius=14.0, clone_radius=8.0, rxn_half=6.0, port=6.0,
+                    side_offset=36.0, side_along=20.0)
     roles = classify(pw, P.hub_degree, P.hub_ratio)          # hub degrees from the whole pathway
     # pseudo-reactions (biomass objective): not drawn as a node with lines across the whole map
     drains: dict[str, tuple] = {}
@@ -2381,6 +2438,17 @@ def _layout_component(pw: Pathway, P: Params, prev: Previous, roles: dict[str, R
 
     def clone_slots(R: Pt, a: Pt, n: Pt, ro: Roles, far: set | frozenset = frozenset()):
         out = []
+        if L.sbgn:   # boxes: beside the axis (gap 12 to the box), stacked along it without touching
+            for lst, role, sgn in ((ro.side_sub, "sidesubstrate", -1), (ro.side_prod, "sideproduct", 1)):
+                along = 10.0
+                for m in [m for m in lst if m not in far]:
+                    w_, h_, _, _ = node_dims(pw, P, m, "side")
+                    en = abs(n[0]) * w_ / 2 + abs(n[1]) * h_ / 2
+                    ea = abs(a[0]) * w_ / 2 + abs(a[1]) * h_ / 2
+                    along += ea
+                    out.append((m, role, add(R, add(mul(n, 12 + en), mul(a, sgn * along)))))
+                    along += ea + 3
+            return out
         for k, m in enumerate([m for m in ro.side_sub if m not in far]):
             out.append((m, "sidesubstrate",
                         add(R, add(mul(n, P.side_offset + 4 * k), mul(a, -(P.side_along + k * P.side_step))))))
@@ -2508,6 +2576,24 @@ def resolve_node_overlaps(L: Layout, P: Params, pos, rpos, raxis, ctx, pin_met, 
         k, i, _ = it
         return pos[i] if k == "M" else rpos[i] if k == "R" else L.clones[i].pos
 
+    def half(it) -> Pt:
+        """half width / height of the node (sbgn boxes); circles: the radius both ways"""
+        k, i, r = it
+        if not L.sbgn or k == "R":
+            return (r, r) if not L.sbgn else (P.rxn_half + 2, P.rxn_half + 2)
+        w_, h_, _, _ = L.met_dims(i) if k == "M" else L.clone_dims(L.clones[i])
+        return (w_ / 2, h_ / 2)
+
+    def apart(a_, pa_, b_, pb_) -> bool:
+        if not L.sbgn:
+            return dist(pa_, pb_) >= a_[2] + b_[2] + gap
+        (ax_, ay_), (bx_, by_) = half(a_), half(b_)
+        return abs(pa_[0] - pb_[0]) >= ax_ + bx_ + gap or abs(pa_[1] - pb_[1]) >= ay_ + by_ + gap
+
+    def reach(it, u: Pt) -> float:
+        hx_, hy_ = half(it)
+        return abs(u[0]) * hx_ + abs(u[1]) * hy_ if L.sbgn else it[2]
+
     def setp(it, p):
         k, i, _ = it
         p = (round(p[0], 2), round(p[1], 2))
@@ -2532,7 +2618,7 @@ def resolve_node_overlaps(L: Layout, P: Params, pos, rpos, raxis, ctx, pin_met, 
         pair = None
         for i in range(len(its)):
             for j in range(i + 1, len(its)):
-                if dist(pts[i], pts[j]) < its[i][2] + its[j][2] + gap:
+                if not apart(its[i], pts[i], its[j], pts[j]):
                     pair = (its[i], its[j])
                     break
             if pair:
@@ -2547,7 +2633,7 @@ def resolve_node_overlaps(L: Layout, P: Params, pos, rpos, raxis, ctx, pin_met, 
         mover, other = (a, b) if ma <= mb else (b, a)
 
         def free(q, r):
-            return all(dist(q, getp(t)) >= r + t[2] + gap for t in its if t != mover)
+            return all(apart(mover, q, t, getp(t)) for t in its if t != mover)
 
         if mover[0] == "C" and L.clones[mover[1]].role.startswith("drain"):
             c = L.clones[mover[1]]
@@ -2596,9 +2682,9 @@ def resolve_node_overlaps(L: Layout, P: Params, pos, rpos, raxis, ctx, pin_met, 
                         break
                 if target:
                     break
-            setp(mover, target or add(pa, mul(v0, mover[2] + other[2] + gap)))
+            setp(mover, target or add(pa, mul(v0, reach(mover, v0) + reach(other, v0) + gap)))
             continue
-        need = mover[2] + other[2] + gap - dist(pa, pb) + 0.5
+        need = reach(mover, v) + reach(other, v) + gap - dist(pa, pb) + 0.5
         setp(mover, add(pa, mul(v, need)))
 
 
@@ -2630,7 +2716,7 @@ def build_edges(L: Layout):
             continue
         mp = L.met_pos[c.species]
         tw = unit(sub(c.pos, mp))
-        a_, b_ = add(mp, mul(tw, P.met_radius + 1)), add(c.pos, mul(tw, -(P.clone_radius + 3)))
+        a_, b_ = add(mp, mul(tw, L.met_border(c.species, tw) + 1)), add(c.pos, mul(tw, -(P.clone_radius + 3)))
         if c.role == "drain_in":
             L.edges.append(Edge(f"SRG_{c.rxn}_{c.species}_drain", c.rxn, c.species, Layout.sg(c.species), "substrate",
                                 [("L", a_, b_)], 1.0, False, drawn="drain_in"))
@@ -2641,7 +2727,7 @@ def build_edges(L: Layout):
         ro = L.roles[rid]
         r = pw.reactions[rid]
         R, a = L.rxn_pos[rid], L.rxn_axis[rid]
-        p_in, p_out = add(R, mul(a, -P.rxn_half)), add(R, mul(a, P.rxn_half))
+        p_in, p_out = add(R, mul(a, -(P.rxn_half + P.port))), add(R, mul(a, P.rxn_half + P.port))
         for role, mets, port, sgn in (("substrate", ro.main_sub, p_in, -1), ("product", ro.main_prod, p_out, 1)):
             for m in mets:
                 mp = L.met_pos[m]
@@ -2655,14 +2741,15 @@ def build_edges(L: Layout):
                     step = 2 * math.pi / len(cyc.slots)
                     if abs(abs(wrap(tm - tr)) - step) < 1e-3:
                         rr = cyc.radius
-                        t0 = tr + sgn * cyc.direction * P.rxn_half / rr
-                        t1 = tr + wrap(tm - tr) - sgn * cyc.direction * (P.met_radius + 1) / rr
+                        t0 = tr + sgn * cyc.direction * (P.rxn_half + P.port) / rr
+                        tang = (-(mp[1] - cyc.center[1]), mp[0] - cyc.center[0])   # along the circle
+                        t1 = tr + wrap(tm - tr) - sgn * cyc.direction * (L.met_border(m, tang) + 1) / rr
                         segs = [arc_bezier(cyc.center, rr, t0, t0 + wrap(t1 - t0))]
                 if segs is None:   # straight line from the reaction port to the metabolite
                     toward = unit(sub(mp, port))
                     if dot(toward, toward) == 0:
                         toward = mul(a, sgn)
-                    segs = [("L", port, add(mp, mul(toward, -P.met_radius)))]
+                    segs = [("L", port, add(mp, mul(toward, -L.met_border(m, toward))))]
                 tr = true_role(rid, role, m)
                 L.edges.append(Edge(f"SRG_{rid}_{m}_{tr}", rid, m, Layout.sg(m), tr, segs,
                                     r.weight, r.reversible, drawn=role))
@@ -2671,14 +2758,15 @@ def build_edges(L: Layout):
         for m in sorted(r.modifiers):
             cl = clone_at.get((rid, m, "modifier"))
             if cl is not None:
-                mp, rad, glyph = cl.pos, P.clone_radius + 2.5, cl.glyph
+                mp, glyph = cl.pos, cl.glyph
             elif m in L.met_pos:
-                mp, rad, glyph = L.met_pos[m], P.met_radius + 1, Layout.sg(m)
+                mp, glyph = L.met_pos[m], Layout.sg(m)
             else:
                 continue
             tw = unit(sub(R, mp))
             if dot(tw, tw) == 0:
                 continue
+            rad = (L.clone_border(cl, tw) + 2.5) if cl is not None else (L.met_border(m, tw) + 1)
             kind = r.modifiers[m]
             L.edges.append(Edge(f"SRG_{rid}_{m}_modifier", rid, m, glyph, MOD_ROLE.get(kind, "modifier"),
                                 [("L", add(mp, mul(tw, rad)), add(R, mul(tw, -(P.rxn_half + 3))))],
@@ -2692,7 +2780,7 @@ def build_edges(L: Layout):
                     tw = unit(sub(c.pos, port))
                     tr = true_role(rid, role, m)
                     L.edges.append(Edge(f"SRG_{rid}_{m}_{tr}", rid, m, c.glyph, tr,
-                                        [("L", port, add(c.pos, mul(tw, -(P.clone_radius + 1.5))))],
+                                        [("L", port, add(c.pos, mul(tw, -L.clone_border(c, tw))))],
                                         r.weight, r.reversible, drawn=role, far=True))
                     continue
                 c1 = add(port, mul(a, sgn * P.side_along * 0.8))
@@ -2700,7 +2788,7 @@ def build_edges(L: Layout):
                 c2 = add(c.pos, mul(back, P.side_offset * 0.45))
                 tr = true_role(rid, role, m)
                 L.edges.append(Edge(f"SRG_{rid}_{m}_{tr}", rid, m, c.glyph, tr,
-                                    [("C", port, c1, c2, add(c.pos, mul(back, P.clone_radius)))],
+                                    [("C", port, c1, c2, add(c.pos, mul(back, L.clone_border(c, back))))],
                                     r.weight, r.reversible, drawn=role, far=m in L.far_links.get(rid, ())))
 
 
@@ -2737,9 +2825,11 @@ def place_labels(L: Layout, ctx, attach, S, side_rot, prev: Previous, lab_pref: 
     outward from its node; in the nearest ring with free positions the one crossing fewest edges wins
     (ties: preferred direction). Labels that end up away from their node get a leader line."""
     P, pw = L.params, L.pathway
-    nodes = [(p, P.met_radius) for p in L.met_pos.values()]
-    nodes += [(p, P.rxn_half * 1.42) for p in L.rxn_pos.values()]
-    nodes += [(c.pos, P.clone_radius + (1.5 if c.far else 0)) for c in L.clones]
+    # nodes as (centre, half width, half height, circle?)
+    nodes = [(p, *(lambda d: (d[0] / 2, d[1] / 2))(L.met_dims(m)), not L.sbgn) for m, p in L.met_pos.items()]
+    nodes += [(p, P.rxn_half * 1.42, P.rxn_half * 1.42, True) for p in L.rxn_pos.values()]
+    nodes += [(c.pos, *(lambda d: (d[0] / 2, d[1] / 2))(L.clone_dims(c)), not L.sbgn or c.species == EMPTY
+               or c.role.startswith("drain")) for c in L.clones]
     edge_pts = [q for e in L.edges for s_ in e.segs for q in bezier_points(s_, 12)]
     placed: list[tuple] = []
     fixed_pending: dict[str, tuple] = {}
@@ -2747,11 +2837,14 @@ def place_labels(L: Layout, ctx, attach, S, side_rot, prev: Previous, lab_pref: 
 
     def hits_node(box, own: Pt) -> bool:
         x0, y0, x1, y1 = box[0] - PAD, box[1] - PAD, box[0] + box[2] + PAD, box[1] + box[3] + PAD
-        for p, r in nodes:
+        for p, hx, hy, round_ in nodes:
             if p is own or (abs(p[0] - own[0]) < 1e-6 and abs(p[1] - own[1]) < 1e-6):
                 continue
-            cx, cy = min(max(p[0], x0), x1), min(max(p[1], y0), y1)
-            if math.hypot(cx - p[0], cy - p[1]) < r:
+            if round_:
+                cx, cy = min(max(p[0], x0), x1), min(max(p[1], y0), y1)
+                if math.hypot(cx - p[0], cy - p[1]) < hx:
+                    return True
+            elif x0 < p[0] + hx and p[0] - hx < x1 and y0 < p[1] + hy and p[1] - hy < y1:
                 return True
         return False
 
@@ -2789,7 +2882,9 @@ def place_labels(L: Layout, ctx, attach, S, side_rot, prev: Previous, lab_pref: 
         w, h = text_size(text, size)
         fixed_pending.pop(tg, None)
         anchor, leader = "start", False
-        keep = tg in prev.labels and dist(add(prev.labels[tg], (w / 2, h / 2)), c) < rr + w / 2 + 30
+        keep = tg in prev.labels and dist(add(prev.labels[tg], (w / 2, h / 2)), c) < rr + w / 2 + 30 and \
+            not (prev.labels[tg][0] - rr < c[0] < prev.labels[tg][0] + w + rr and
+                 prev.labels[tg][1] - rr < c[1] < prev.labels[tg][1] + h + rr)   # not on the node (old sbgn map)
         if keep:   # previous label still next to its object -> keep it exactly
             x, y = prev.labels[tg]
             # it had a leader line before if it sits clearly away from its node: keep that line too
@@ -2811,7 +2906,7 @@ def place_labels(L: Layout, ctx, attach, S, side_rot, prev: Previous, lab_pref: 
             if best is None:
                 best = search(c, rr, w, h, pref, 40)             # further out (up to ~250 px)
             if best is None:                                     # last resort: below everything
-                ys = [o[1] + o[3] for o in placed] + [p[1] + r for p, r in nodes]
+                ys = [o[1] + o[3] for o in placed] + [nd[0][1] + nd[2] for nd in nodes]
                 best = (0, c[0] - w / 2, max(ys) + 6, "S", 99)
             _, x, y, sl, ring = best
             anchor = slot_anchor(sl)
@@ -2819,13 +2914,32 @@ def place_labels(L: Layout, ctx, attach, S, side_rot, prev: Previous, lab_pref: 
         placed.append((x, y, w, h))
         L.labels[tg] = Label(tg, target, species, rxn, text, x, y, w, h, size, kind, anchor, leader, c)
 
+    def inside(tg, target, species, text, kind, c: Pt, dims):
+        """sbgn: the name is written inside its node (wrapped lines, centred)"""
+        w, h, lines, _ = dims
+        size = sbgn.FONT[kind]
+        L.labels[tg] = Label(tg, target, species, None, text, c[0] - w / 2, c[1] - h / 2, w, h, size, kind,
+                             "middle", False, c, tuple(lines), True)
+
+    if L.sbgn:
+        for m in sorted(L.met_pos):
+            inside(f"TG_M_{m}", Layout.sg(m), m, display_name(pw, m, replace(P, label_max=10 ** 6)), "main",
+                   L.met_pos[m], L.met_dims(m))
+        for c in L.clones:
+            if c.species == EMPTY or c.role.startswith("drain"):
+                continue
+            d_ = L.clone_dims(c)
+            kind = "copy" if c.far or c.role == "modifier" else "side"
+            inside("TG" + c.glyph[2:], c.glyph, c.species, display_name(pw, c.species, replace(P, label_max=10 ** 6),
+                   clone=kind == "side"), kind, c.pos, d_)
+
     # labels kept from a previous layout block their area for all new labels
-    for m in L.met_pos:
+    for m in ([] if L.sbgn else L.met_pos):
         tg = f"TG_M_{m}"
         if tg in prev.labels:
             w, h = text_size(display_name(pw, m, P), LABEL_SIZE["main"])
             fixed_pending[tg] = (*prev.labels[tg], w, h)
-    for c in L.clones:
+    for c in ([] if L.sbgn else L.clones):
         tg = "TG" + c.glyph[2:]
         if tg in prev.labels:
             w, h = text_size(display_name(pw, c.species, P, clone=not c.far), LABEL_SIZE["copy" if c.far else "side"])
@@ -2837,7 +2951,7 @@ def place_labels(L: Layout, ctx, attach, S, side_rot, prev: Previous, lab_pref: 
             fixed_pending[tg] = (*prev.labels[tg], w, h)
 
     # order: main metabolites, reactions, copies of main metabolites, cofactors
-    for m in sorted(L.met_pos, key=lambda m: (0 if ctx.get(m) != "branch" else 1, m)):
+    for m in sorted([] if L.sbgn else L.met_pos, key=lambda m: (0 if ctx.get(m) != "branch" else 1, m)):
         p = L.met_pos[m]
         if lab_pref and m in lab_pref:      # partner rows: label away from the reaction
             pref = lab_pref[m]
@@ -2862,6 +2976,8 @@ def place_labels(L: Layout, ctx, attach, S, side_rot, prev: Previous, lab_pref: 
             r_ = pw.reactions.get(c.rxn)
             put("TG" + c.glyph[2:], c.glyph, None, c.rxn, drain_label(r_.name if r_ else c.rxn),
                 "side", c.pos, P.clone_radius + 2, unit(sub(c.pos, L.met_pos[c.species])))
+            continue
+        if L.sbgn:                      # name already inside the box
             continue
         n = L.rxn_side.get(c.rxn, (1, 0))
         put("TG" + c.glyph[2:], c.glyph, c.species, None, display_name(pw, c.species, P, clone=not c.far),
@@ -2888,9 +3004,13 @@ def _transform(L: Layout, d: Pt):
 def _bbox(L: Layout):
     P = L.params
     pts = []
-    for p in L.met_pos.values():
-        pts += [sub(p, (P.met_radius, P.met_radius)), add(p, (P.met_radius, P.met_radius))]
-    pts += list(L.rxn_pos.values()) + [c.pos for c in L.clones]
+    for m, p in L.met_pos.items():
+        w_, h_, _, _ = L.met_dims(m)
+        pts += [sub(p, (w_ / 2, h_ / 2)), add(p, (w_ / 2, h_ / 2))]
+    pts += list(L.rxn_pos.values())
+    for c in L.clones:
+        w_, h_, _, _ = L.clone_dims(c)
+        pts += [sub(c.pos, (w_ / 2, h_ / 2)), add(c.pos, (w_ / 2, h_ / 2))]
     pts += [q for e in L.edges for s in e.segs for q in bezier_points(s, 6)]
     for lb in L.labels.values():
         pts += [(lb.x, lb.y), (lb.x + lb.w, lb.y + lb.h)]

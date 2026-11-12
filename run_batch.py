@@ -36,6 +36,9 @@ SETTINGS = {
     "cycles": "known",            # "known" (curated cycles only), "all" or "none"
     "labels": "name",             # metabolite labels: "name" or "id"
     "reaction_labels": True,
+    "notation": "default",        # "default" (circles, names beside) or "sbgn" (names inside SBGN shapes)
+    "box_max": 110,               # sbgn: max width of a name box (px); longer names wrap, then "…"
+    "box_lines": 2,               # sbgn: max lines per box
     "modifiers": False,           # draw catalysts / transcription factors / inhibitors (SBGN arcs)
     "pseudo": "drain",            # biomass/pseudo-reactions: "drain", "hide" or "draw"
     "keep_exchange": False,       # also keep exchange/demand/sink reactions (regulated ones are always kept)
@@ -56,7 +59,8 @@ def settings_to_argv(s):
         argv.append("--no-reaction-labels")
     if s["modifiers"]:
         argv.append("--modifiers")
-    argv += ["--pseudo", s["pseudo"]]
+    argv += ["--pseudo", s["pseudo"], "--notation", s.get("notation", "default"),
+             "--box-max", str(s.get("box_max", 110)), "--box-lines", str(s.get("box_lines", 2))]
     if s["keep_exchange"]:
         argv.append("--keep-exchange")
     if s["show_protons"]:

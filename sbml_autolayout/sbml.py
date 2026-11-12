@@ -8,7 +8,7 @@ from __future__ import annotations
 import xml.etree.ElementTree as ET
 
 from .layout import Layout, Previous
-from .model import EMPTY
+from .model import EMPTY, export_ids
 
 CORE = "http://www.sbml.org/sbml/level3/version1/core"
 LAY = "http://www.sbml.org/sbml/level3/version1/layout/version1"
@@ -64,6 +64,7 @@ MOD_SBO = {"catalysis": "SBO:0000013", "stimulation": "SBO:0000459", "inhibition
 
 def write_sbml(L: Layout, path: str):
     pw, P = L.pathway, L.params
+    SP, RX = export_ids(pw)          # original SBML ids where known
     root = ET.Element(_c("sbml"), {"level": "3", "version": "1", _l("required"): "false"})
     model = ET.SubElement(root, _c("model"), {"id": _sid("", pw.id) or "pathway", "name": pw.name})
 
@@ -76,25 +77,38 @@ def write_sbml(L: Layout, path: str):
     for mid in sorted(used):
         m = pw.metabolites[mid]
         ET.SubElement(ls, _c("species"), {
-            "id": _sid("M_", mid), "name": m.name, "compartment": m.compartment,
+            "id": SP[mid], "name": m.name, "compartment": m.compartment,
             "hasOnlySubstanceUnits": "false", "boundaryCondition": "false", "constant": "false"})
     lr = ET.SubElement(model, _c("listOfReactions"))
     for rid, r in pw.reactions.items():
-        re_ = ET.SubElement(lr, _c("reaction"), {"id": _sid("R_", rid), "name": r.name,
+        re_ = ET.SubElement(lr, _c("reaction"), {"id": RX[rid], "name": r.name,
                                                  "reversible": str(r.reversible).lower(), "fast": "false"})
         for tag, parts, suf in (("listOfReactants", r.substrates, "s"), ("listOfProducts", r.products, "p")):
             if parts:
                 lst = ET.SubElement(re_, _c(tag))
                 for mid, st in parts.items():
                     ET.SubElement(lst, _c("speciesReference"), {
-                        "id": _sid("SR_", f"{rid}_{mid}_{suf}"), "species": _sid("M_", mid),
+                        "id": _sid("SR_", f"{rid}_{mid}_{suf}"), "species": SP[mid],
                         "stoichiometry": _f(st), "constant": "true"})
         if r.modifiers:      # catalysts / regulators, with the SBO term of their kind
             lst = ET.SubElement(re_, _c("listOfModifiers"))
             for mid in sorted(r.modifiers):
                 ET.SubElement(lst, _c("modifierSpeciesReference"), {
-                    "id": _sid("SR_", f"{rid}_{mid}_m"), "species": _sid("M_", mid),
+                    "id": _sid("SR_", f"{rid}_{mid}_m"), "species": SP[mid],
                     "sboTerm": MOD_SBO.get(r.modifiers[mid], "SBO:0000019")})
+
+        for k, al in enumerate(r.aliases):   # identical reaction of the input: own id, same drawing
+            ra = ET.SubElement(lr, _c("reaction"), {"id": RX[(rid, k)], "name": al.get("name", ""),
+                                                    "reversible": str(al.get("reversible", r.reversible)).lower(),
+                                                    "fast": "false"})
+            for tag, parts, suf in (("listOfReactants", al.get("substrates", r.substrates), "s"),
+                                    ("listOfProducts", al.get("products", r.products), "p")):
+                if parts:
+                    lst = ET.SubElement(ra, _c(tag))
+                    for mid, st in parts.items():
+                        ET.SubElement(lst, _c("speciesReference"), {
+                            "id": _sid("SR_", f"{RX[(rid, k)]}_{mid}_{suf}"), "species": SP[mid],
+                            "stoichiometry": _f(st), "constant": "true"})
 
     lol = ET.SubElement(model, _l("listOfLayouts"))
     lay = ET.SubElement(lol, _l("layout"), {_l("id"): _sid("layout_", pw.id), _l("name"): "sbml-autolayout"})
@@ -110,28 +124,29 @@ def write_sbml(L: Layout, path: str):
         _bbox(cg, f"CG_{c}_bb", 0, 0, L.width, L.height)
 
     lsg = ET.SubElement(lay, _l("listOfSpeciesGlyphs"))
-    r_ = P.met_radius
-    for mid in sorted(L.met_pos):
+    for mid in sorted(L.met_pos):          # bounding box = the drawn node (circle or sbgn name box)
         x, y = L.met_pos[mid]
-        g = ET.SubElement(lsg, _l("speciesGlyph"), {_l("id"): _sid("", L.sg(mid)), _l("species"): _sid("M_", mid)})
-        _bbox(g, _sid("", L.sg(mid)) + "_bb", x - r_, y - r_, 2 * r_, 2 * r_)
-    cr = P.clone_radius
+        w_, h_, _, _ = L.met_dims(mid)
+        g = ET.SubElement(lsg, _l("speciesGlyph"), {_l("id"): _sid("", L.sg(mid)), _l("species"): SP[mid]})
+        _bbox(g, _sid("", L.sg(mid)) + "_bb", x - w_ / 2, y - h_ / 2, w_, h_)
     for c in sorted(L.clones, key=lambda c: c.glyph):
         if c.species == EMPTY or c.role.startswith("drain"):   # symbols, not species glyphs
             continue
-        g = ET.SubElement(lsg, _l("speciesGlyph"), {_l("id"): _sid("", c.glyph), _l("species"): _sid("M_", c.species)})
-        _bbox(g, _sid("", c.glyph) + "_bb", c.pos[0] - cr, c.pos[1] - cr, 2 * cr, 2 * cr)
+        w_, h_, _, _ = L.clone_dims(c) if L.sbgn else (2 * P.clone_radius, 2 * P.clone_radius, (), "")
+        g = ET.SubElement(lsg, _l("speciesGlyph"), {_l("id"): _sid("", c.glyph), _l("species"): SP[c.species]})
+        _bbox(g, _sid("", c.glyph) + "_bb", c.pos[0] - w_ / 2, c.pos[1] - h_ / 2, w_, h_)
 
     lrg = ET.SubElement(lay, _l("listOfReactionGlyphs"))
     edges_by_rxn: dict[str, list] = {}
     for e in L.edges:
         edges_by_rxn.setdefault(e.rxn, []).append(e)
     h = P.rxn_half
+    hp = P.rxn_half + P.port              # sbgn: the reaction curve includes the two ports
     for rid in sorted(L.rxn_pos):
         (x, y), (ax, ay) = L.rxn_pos[rid], L.rxn_axis[rid]
-        g = ET.SubElement(lrg, _l("reactionGlyph"), {_l("id"): _sid("", L.rg(rid)), _l("reaction"): _sid("R_", rid)})
+        g = ET.SubElement(lrg, _l("reactionGlyph"), {_l("id"): _sid("", L.rg(rid)), _l("reaction"): RX[rid]})
         _bbox(g, _sid("", L.rg(rid)) + "_bb", x - h, y - h, 2 * h, 2 * h)
-        _curve(g, [("L", (x - ax * h, y - ay * h), (x + ax * h, y + ay * h))])
+        _curve(g, [("L", (x - ax * hp, y - ay * hp), (x + ax * hp, y + ay * hp))])
         lsrg = ET.SubElement(g, _l("listOfSpeciesReferenceGlyphs"))
         for e in edges_by_rxn.get(rid, []):
             if e.species == EMPTY:
@@ -146,7 +161,7 @@ def write_sbml(L: Layout, path: str):
     # several glyphs for one reaction), each linked to that metabolite only
     for c in sorted((c for c in L.clones if c.role.startswith("drain")), key=lambda c: c.glyph):
         x, y = c.pos
-        g = ET.SubElement(lrg, _l("reactionGlyph"), {_l("id"): _sid("RG_", c.glyph[3:]), _l("reaction"): _sid("R_", c.rxn)})
+        g = ET.SubElement(lrg, _l("reactionGlyph"), {_l("id"): _sid("RG_", c.glyph[3:]), _l("reaction"): RX[c.rxn]})
         _bbox(g, _sid("RG_", c.glyph[3:]) + "_bb", x - h, y - h, 2 * h, 2 * h)
         lsrg = ET.SubElement(g, _l("listOfSpeciesReferenceGlyphs"))
         for e in edges_by_rxn.get(c.rxn, []):
@@ -157,6 +172,28 @@ def write_sbml(L: Layout, path: str):
                 _l("id"): _sid("", e.id), _l("speciesGlyph"): _sid("", e.glyph),
                 _l("speciesReference"): _sid("SR_", f"{c.rxn}_{c.species}_{suf}"), _l("role"): e.role})
             _curve(el, e.segs)
+
+    # identical reactions of the input (aliases): a reaction glyph of their own on top of the drawn one
+    for rid in sorted(L.rxn_pos):
+        r = pw.reactions[rid]
+        (x, y), (ax, ay) = L.rxn_pos[rid], L.rxn_axis[rid]
+        for k, al in enumerate(r.aliases):
+            aid = RX[(rid, k)]
+            parts = {"s": set(al.get("substrates", r.substrates)), "p": set(al.get("products", r.products))}
+            g = ET.SubElement(lrg, _l("reactionGlyph"), {_l("id"): _sid("RGA_", aid), _l("reaction"): aid})
+            _bbox(g, _sid("RGA_", aid) + "_bb", x - h, y - h, 2 * h, 2 * h)
+            _curve(g, [("L", (x - ax * hp, y - ay * hp), (x + ax * hp, y + ay * hp))])
+            lsrg = ET.SubElement(g, _l("listOfSpeciesReferenceGlyphs"))
+            for e in edges_by_rxn.get(rid, []):
+                if e.species == EMPTY or (e.drawn or "").startswith("mod:"):
+                    continue
+                suf = next((k_ for k_ in ("s", "p") if e.species in parts[k_]), None)
+                if suf is None:
+                    continue
+                el = ET.SubElement(lsrg, _l("speciesReferenceGlyph"), {
+                    _l("id"): _sid("A_", e.id + "_" + aid), _l("speciesGlyph"): _sid("", e.glyph),
+                    _l("speciesReference"): _sid("SR_", f"{aid}_{e.species}_{suf}"), _l("role"): e.role})
+                _curve(el, e.segs)
 
     ltg = ET.SubElement(lay, _l("listOfTextGlyphs"))
     drain_glyphs = {c.glyph for c in L.clones if c.role.startswith("drain")}
@@ -172,9 +209,9 @@ def write_sbml(L: Layout, path: str):
         if lb.species and lb.text != full:      # shortened / cofactor short name: store the shown text
             attrs[_l("text")] = lb.text
         elif lb.species:
-            attrs[_l("originOfText")] = _sid("M_", lb.species)
+            attrs[_l("originOfText")] = SP[lb.species]
         elif lb.rxn:
-            attrs[_l("originOfText")] = _sid("R_", lb.rxn)
+            attrs[_l("originOfText")] = RX[lb.rxn]
         el = ET.SubElement(ltg, _l("textGlyph"), attrs)
         _bbox(el, _sid("", tg) + "_bb", lb.x, lb.y, lb.w, lb.h)
 

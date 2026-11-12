@@ -175,6 +175,7 @@ def import_sbml(paths: list[str], subsystems: list[str] | None = None, keep_exch
     rxns: list[dict] = []
     rxn_ids: set[str] = set()
     signatures: dict[tuple, str] = {}
+    sig_file: dict[str, str] = {}
     names = []
     filt = [s.lower() for s in subsystems or []]
 
@@ -197,6 +198,7 @@ def import_sbml(paths: list[str], subsystems: list[str] | None = None, keep_exch
         comp_names = {(c.get("name") or "").strip().lower() for c in _kids(_kid(model, "listOfCompartments"), "compartment")}
 
         local_map: dict[str, str | None] = {}
+        taken_here: set[str] = set()       # species of THIS file never merge with each other
         for sp in _kids(_kid(model, "listOfSpecies"), "species"):
             sid = sp.get("id")
             if sp.get("boundaryCondition", "false") == "true":
@@ -222,7 +224,7 @@ def import_sbml(paths: list[str], subsystems: list[str] | None = None, keep_exch
             keys.append(("id", base.lower(), cid))
             if match_names:
                 keys.append(("name", name.lower(), cid))
-            hit = next((key_to_id[k] for k in keys if k in key_to_id), None)
+            hit = next((key_to_id[k] for k in keys if k in key_to_id and key_to_id[k] not in taken_here), None)
             if hit is None:
                 new = _clean(base if cid == "c" else f"{base}_{cid}")
                 while new in mets:
@@ -230,12 +232,16 @@ def import_sbml(paths: list[str], subsystems: list[str] | None = None, keep_exch
                 chebi = sorted({k[1] for k in keys if k[0] == "chebi"})
                 kegg = sorted({k[1] for k in keys if k[0] == "kegg"})
                 mets[new] = {"name": name, "compartment": cid, "base": base, "chebi": chebi, "kegg": kegg}
+                if sp.get("sboTerm"):
+                    mets[new]["sbo"] = sp.get("sboTerm")
+                mets[new]["sbml_id"] = sid           # original id: written back on export
                 hit = new
             elif len(rep.files) > 1 and hit not in rep.merged_species and sid != hit:
                 rep.merged_species.append(f"{sid}->{hit}" if sid != hit else hit)
             for k in keys:
                 key_to_id.setdefault(k, hit)
             local_map[sid] = hit
+            taken_here.add(hit)
 
         subs_of = _subsystems(model)
         # enzyme names from EC classification groups (BRENDA): "EC 4.2.1.3 aconitate hydratase"
@@ -294,12 +300,19 @@ def import_sbml(paths: list[str], subsystems: list[str] | None = None, keep_exch
                     if e_["id"] == kept:
                         for m, k in mods.items():
                             e_.setdefault("modifiers", {}).setdefault(m, k)
+                        # a duplicate in the same file is drawn on top of the kept one, but keeps its
+                        # own id in the output (SBML: own reaction + glyph, Escher: own reaction)
+                        if kept is not None and sig_file.get(kept) == path:
+                            e_.setdefault("aliases", []).append(
+                                {"id": rid0, "name": (r.get("name") or rid0).strip(),
+                                 "substrates": s, "products": p, "reversible": rev})
                 continue
             rid = _clean(re.sub(r"^R_", "", rid0))
             while rid in rxn_ids:
                 rid += "_2"
             rxn_ids.add(rid)
             signatures[sig] = rid
+            sig_file[rid] = path
             for sub in rsubs:
                 rep.subsystems[sub] = rep.subsystems.get(sub, 0) + 1
             notes = _text(_kid(r, "notes"))
@@ -308,7 +321,7 @@ def import_sbml(paths: list[str], subsystems: list[str] | None = None, keep_exch
             if ec and (re.fullmatch(r"(BR|BS)\d+(-\w+)?|NODE_\d+|rx_\w+", name) or name == rid0):
                 name = ec_name.get(ec.group(1), f"EC {ec.group(1)}")   # BRENDA ids -> enzyme name
             entry = {"id": rid, "name": name, "substrates": s, "products": p,
-                     "reversible": rev, "subsystem": rsubs}
+                     "reversible": rev, "subsystem": rsubs, "sbml_id": rid0}
             if mods:
                 entry["modifiers"] = mods
             if r.get("sboTerm") in PSEUDO_SBO or looks_pseudo(rid0, name):

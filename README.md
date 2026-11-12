@@ -75,6 +75,8 @@ A file that fails is listed as FAILED with the reason; all other maps are still 
 | `--cycle-direction cw\|ccw` | direction of drawn cycles |
 | `--cycles known\|all\|none` | draw only curated cycles (TCA, urea, methionine, Calvin) as circles, every loop, or none |
 | `--modifiers` | draw catalysts / transcription factors / inhibitors (SBML modifiers); off by default |
+| `--notation sbgn` | SBGN Process Description: names inside shapes (default: small circles, names beside them) |
+| `--box-max 110` / `--box-lines 2` | SBGN only: largest width of a name box (px) and number of text lines |
 | `--pseudo drain\|hide\|draw` | biomass / pseudo-reactions: small drains next to the precursors (default), hidden, or a normal node |
 | `--keep-exchange` | also keep exchange/demand/sink reactions (one side empty, no modifier); off by default |
 | `--show-protons` | draw H⁺ as a cofactor; off by default |
@@ -108,6 +110,52 @@ The source decides first:
 - CellDesigner main reactants.
 
 Only where the source says nothing do built-in rules apply: currency metabolites by name/ChEBI, and hub demotion that never disconnects the map.
+
+## Ids in the output (for comparisons and benchmarks)
+
+The SBML and Escher outputs use the ids from the input SBML file:
+- **SBML:** species and reactions have their original ids, and the glyphs point to them
+  (`layout:species`, `layout:reaction`, `originOfText`).
+- **Escher:** `bigg_id` is the original SBML id, both for metabolite nodes and for reactions and their
+  metabolite lists. The internal glyph ids (`SG_M_…`, `RG_R_…`) are only used for `--previous`.
+- **Species of one file are never merged**, even if they have the same name or annotation. For example,
+  a protein and its active form keep two separate nodes. Species are only merged across files when
+  several files are combined into one map, and then the id from the first file is used.
+- **Identical reactions in one file** (same participants) are drawn once. Each one still gets its own
+  reaction with its original id in the SBML (with its own reaction glyph on top of the drawn one) and in
+  the Escher map.
+- **Not drawn, so no glyph:** exchange/demand reactions (unless `--keep-exchange`), protons (unless
+  `--show-protons`) and modifiers (unless `--modifiers`). With all three switches, every species and
+  reaction of the input appears in the output. JSON or Escher inputs keep their own ids.
+
+## Notation: default or SBGN
+
+`--notation sbgn` (or `"notation": "sbgn"` in `run_batch.py`) draws the map in SBGN Process
+Description style:
+- **Species are shapes with the name inside**, chosen by the species' SBO term in the SBML file:
+  - simple chemical (metabolites, the default when there is no SBO term): rounded ends;
+  - macromolecule (SBO:0000245, 0000252, …): rounded rectangle;
+  - complex (SBO:0000253, 0000296, 0000297): cut corners;
+  - nucleic acid feature (genes, RNA): rounded bottom corners;
+  - unspecified entity: ellipse;
+  - phenotype: hexagon.
+- **Long names wrap.** A box is at most `--box-max` px wide (default 110; a single long word may stick
+  out by up to 12 %). Names break at spaces, then hyphens, onto at most `--box-lines` lines (default 2).
+  What still doesn't fit is shortened with "…". The full name is kept as the hover text and in the SBML
+  text glyph.
+- **Cofactor copies** are small one-line boxes (at most 72 px) with the SBGN clone marker (shaded lower
+  band).
+- **Process nodes** are squares with two ports. Consumption arcs have no arrowhead, production arcs
+  have a filled one, and reversible reactions have arrowheads on both sides.
+- **Spacing:** the layout gives the boxes 30 % more room. Lines end at the box outline, and boxes never
+  overlap each other or the reaction names.
+- **SBML:** each species glyph's bounding box is the box. Shapes and colours are not stored, since that
+  would need the SBML Render package.
+- **Escher:** Escher has its own look, so the Escher map uses the same positions but Escher's usual
+  circles.
+
+You can switch the notation and still use `--previous`: positions are kept, and labels that were inside
+the boxes are placed beside the nodes again.
 
 ## Modifiers (catalysts, transcription factors, inhibitors)
 

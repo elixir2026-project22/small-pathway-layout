@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import hashlib
+import re
 import json
 from dataclasses import dataclass, field
 
@@ -55,6 +56,8 @@ class Metabolite:
     chebi: tuple = ()       # ChEBI ids from annotations
     kegg: tuple = ()        # KEGG compound ids from annotations
     comp_label: str = ""    # short compartment tag shown in labels ("m", "e", ...)
+    sbo: str = ""           # SBO term of the species (decides the SBGN glyph: simple chemical, protein, ...)
+    sbml_id: str = ""       # id in the input SBML file (written back on export)
 
     def short(self) -> str:
         for c in self.chebi:
@@ -81,6 +84,10 @@ class Reaction:
     # pseudo-reaction (biomass objective, SBO:0000629): not a biochemical step; drawn as small drains
     # next to its precursors instead of one node with lines across the whole map
     pseudo: bool = False
+    sbml_id: str = ""             # id in the input SBML file (written back on export)
+    # identical reactions of the same input file (same participants): drawn on top of this one, but
+    # written to the output with their own ids: [{"id", "name", "substrates", "products", "reversible"}]
+    aliases: list = field(default_factory=list)
 
 
 @dataclass
@@ -109,7 +116,15 @@ class Pathway:
             "h" in self.hidden and ("15378" in m.chebi or "24636" in m.chebi))
 
     def content_hash(self) -> str:
-        return sha(canonical(self.raw))
+        # the SBO terms only change how a species is drawn, not what the pathway is
+        raw = dict(self.raw)
+        if isinstance(raw.get("metabolites"), dict):
+            raw["metabolites"] = {k: {a: b for a, b in v.items() if a not in ("sbo", "sbml_id")}
+                                  if isinstance(v, dict) else v for k, v in raw["metabolites"].items()}
+        if isinstance(raw.get("reactions"), list):     # original ids / duplicates: same pathway
+            raw["reactions"] = [{a: b for a, b in r.items() if a not in ("sbml_id", "aliases")}
+                                if isinstance(r, dict) else r for r in raw["reactions"]]
+        return sha(canonical(raw))
 
 
 def canonical(obj) -> str:
@@ -129,7 +144,8 @@ def pathway_from_dict(raw: dict) -> Pathway:
     mets = {
         mid: Metabolite(mid, m.get("name", mid), m.get("compartment", "c"), m.get("base", mid),
                         chebi=tuple(m.get("chebi", [])), kegg=tuple(m.get("kegg", [])),
-                        comp_label=m.get("comp_label", ""))
+                        comp_label=m.get("comp_label", ""), sbo=m.get("sbo", ""),
+                        sbml_id=m.get("sbml_id", ""))
         for mid, m in raw["metabolites"].items()
     }
     rxns = {}
@@ -148,6 +164,7 @@ def pathway_from_dict(raw: dict) -> Pathway:
             modifiers={m: k for m, k in r.get("modifiers", {}).items()
                        if m not in r["substrates"] and m not in r["products"]},
             pseudo=bool(r.get("pseudo", False)),
+            sbml_id=r.get("sbml_id", ""), aliases=list(r.get("aliases", [])),
         )
     currency = set(raw.get("currency", [])) if raw.get("currency_replace") else (
         DEFAULT_CURRENCY | set(raw.get("currency", [])))
@@ -256,3 +273,26 @@ PSEUDO_SBO = {"SBO:0000629", "SBO:0000630", "SBO:0000631", "SBO:0000632"}   # bi
 
 def looks_pseudo(rid: str, name: str) -> bool:
     return "biomass" in rid.lower() or "biomass" in (name or "").lower()
+
+
+SID = re.compile(r"^[A-Za-z_][A-Za-z0-9_]*$")
+
+
+def export_ids(pw: "Pathway") -> tuple[dict, dict]:
+    """ids used in the output files: the original SBML ids where the input had them (so the result
+    can be compared with the input as is), else M_<id> / R_<id>. Always valid and unique."""
+    used: set[str] = set()
+
+    def pick(orig: str, prefix: str, internal: str) -> str:
+        cand = orig if orig and SID.match(orig) else prefix + re.sub(r"[^A-Za-z0-9_]", "_", internal)
+        while cand in used:
+            cand += "_"
+        used.add(cand)
+        return cand
+    sp = {mid: pick(m.sbml_id, "M_", mid) for mid, m in sorted(pw.metabolites.items())}
+    rx = {}
+    for rid, r in pw.reactions.items():
+        rx[rid] = pick(r.sbml_id, "R_", rid)
+        for k, a in enumerate(r.aliases):
+            rx[(rid, k)] = pick(a.get("id", ""), "R_", f"{rid}_alias{k + 1}")
+    return sp, rx

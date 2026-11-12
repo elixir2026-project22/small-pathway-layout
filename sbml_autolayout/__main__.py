@@ -56,6 +56,13 @@ def add_layout_options(ap: argparse.ArgumentParser):
                     help="how compact: >1 less white space (e.g. 1.3), <1 more air (e.g. 0.8)")
     ap.add_argument("--grid", type=float, default=0.5,
                     help="grid cell for metabolites in units of the spacing (reactions use half); 0 = off")
+    ap.add_argument("--notation", choices=["default", "sbgn"], default="default",
+                    help="default: small circles with the names beside them; sbgn: SBGN Process Description "
+                         "(names inside shapes chosen by SBO term, process nodes with ports, clone markers)")
+    ap.add_argument("--box-max", type=float, default=110.0,
+                    help="sbgn: largest width of a name box in px; longer names wrap onto a second line "
+                         "and are shortened with '…' after that")
+    ap.add_argument("--box-lines", type=int, default=2, help="sbgn: max lines of text in a box")
     ap.add_argument("--cycles", choices=["known", "all", "none"], default="known",
                     help="draw as circles: curated cycles only (TCA, urea, glyoxylate, methionine, Calvin), "
                          "every loop found, or none")
@@ -67,7 +74,7 @@ def params_from_args(a) -> Params:
                modifiers=a.modifiers and not a.no_modifiers, pseudo=a.pseudo,
                main_path=[x.strip() for x in re.split(r"[>;]", a.main_path) if x.strip()],
                label_mode=a.labels, hub_degree=a.hub_degree, cycles=a.cycles,
-               density=a.density, grid=a.grid)
+               density=a.density, grid=a.grid, notation=a.notation, box_max=a.box_max, box_lines=a.box_lines)
 
 
 def run(inputs: list[str], out: str, a, verbose: bool = True):

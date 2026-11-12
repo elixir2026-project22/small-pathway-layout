@@ -10,11 +10,12 @@ from __future__ import annotations
 import json
 
 from .layout import Layout, add, mul, unit
-from .model import EMPTY
+from .model import EMPTY, export_ids
 
 
 def write_escher(L: Layout, path: str, scale: float = 3.0, marker: float = 20.0):
     pw = L.pathway
+    SP, RX = export_ids(pw)          # original SBML ids where known (bigg_id = id in the input)
     nodes: dict[str, dict] = {}
     reactions: dict[str, dict] = {}
     counter = [0]
@@ -55,7 +56,7 @@ def write_escher(L: Layout, path: str, scale: float = 3.0, marker: float = 20.0)
             continue
         nid = new_id()
         lx, ly = label_xy(f"TG_M_{m}", p, "main")
-        nodes[nid] = {"node_type": "metabolite", **S(p), "bigg_id": m, "name": pw.metabolites[m].name,
+        nodes[nid] = {"node_type": "metabolite", **S(p), "bigg_id": SP[m], "name": pw.metabolites[m].name,
                       "label_x": lx, "label_y": ly, "node_is_primary": True}
         glyph_node[Layout.sg(m)] = nid
     for c in sorted(L.clones, key=lambda c: c.glyph):
@@ -63,7 +64,7 @@ def write_escher(L: Layout, path: str, scale: float = 3.0, marker: float = 20.0)
             continue
         nid = new_id()
         lx, ly = label_xy("TG" + c.glyph[2:], c.pos, "copy" if c.far else "side")
-        nodes[nid] = {"node_type": "metabolite", **S(c.pos), "bigg_id": c.species,
+        nodes[nid] = {"node_type": "metabolite", **S(c.pos), "bigg_id": SP[c.species],
                       "name": pw.metabolites[c.species].name, "label_x": lx, "label_y": ly,
                       "node_is_primary": bool(c.far)}
         glyph_node[c.glyph] = nid
@@ -75,32 +76,38 @@ def write_escher(L: Layout, path: str, scale: float = 3.0, marker: float = 20.0)
     for rid in sorted(L.rxn_pos):
         r = pw.reactions[rid]
         R, a = L.rxn_pos[rid], unit(L.rxn_axis[rid])
-        mid, m_in, m_out = new_id(), new_id(), new_id()
-        nodes[mid] = {"node_type": "midmarker", **S(R)}
-        nodes[m_in] = {"node_type": "multimarker", **S(add(R, mul(a, -marker / scale)))}
-        nodes[m_out] = {"node_type": "multimarker", **S(add(R, mul(a, marker / scale)))}
-        segments = {new_id(): {"from_node_id": m_in, "to_node_id": mid, "b1": None, "b2": None},
-                    new_id(): {"from_node_id": mid, "to_node_id": m_out, "b1": None, "b2": None}}
-        for e in edges_by_rxn.get(rid, []):
-            nid = glyph_node.get(e.glyph)
-            if nid is None or (e.drawn or "").startswith("mod:"):
-                continue
-            drawn = e.drawn or e.role
-            sub_side = drawn in ("substrate", "sidesubstrate")
-            seg = e.segs[0]
-            b1 = b2 = None
-            if seg[0] == "C" and len(e.segs) == 1:      # curve from reaction port to metabolite
-                b1, b2 = S(seg[2]), S(seg[3])
-            if sub_side:     # metabolite -> substrate-side multimarker (control points reversed)
-                segments[new_id()] = {"from_node_id": nid, "to_node_id": m_in, "b1": b2, "b2": b1}
-            else:            # product-side multimarker -> metabolite
-                segments[new_id()] = {"from_node_id": m_out, "to_node_id": nid, "b1": b1, "b2": b2}
-        lx, ly = label_xy(f"TG_R_{rid}", R, "reaction")
-        mets = [{"bigg_id": m, "coefficient": -float(v)} for m, v in r.substrates.items()]
-        mets += [{"bigg_id": m, "coefficient": float(v)} for m, v in r.products.items()]
-        reactions[new_id()] = {"name": r.name, "bigg_id": rid, "reversibility": bool(r.reversible),
-                               "label_x": lx, "label_y": ly, "gene_reaction_rule": "", "genes": [],
-                               "metabolites": mets, "segments": segments}
+        # the reaction itself, then identical reactions of the input (aliases) on top of it
+        versions = [(RX[rid], r.name, r.reversible, r.substrates, r.products)]
+        versions += [(RX[(rid, k)], al.get("name", ""), al.get("reversible", r.reversible),
+                      al.get("substrates", r.substrates), al.get("products", r.products))
+                     for k, al in enumerate(r.aliases)]
+        for bigg, rname, rrev, subs, prods in versions:
+            mid, m_in, m_out = new_id(), new_id(), new_id()
+            nodes[mid] = {"node_type": "midmarker", **S(R)}
+            nodes[m_in] = {"node_type": "multimarker", **S(add(R, mul(a, -marker / scale)))}
+            nodes[m_out] = {"node_type": "multimarker", **S(add(R, mul(a, marker / scale)))}
+            segments = {new_id(): {"from_node_id": m_in, "to_node_id": mid, "b1": None, "b2": None},
+                        new_id(): {"from_node_id": mid, "to_node_id": m_out, "b1": None, "b2": None}}
+            for e in edges_by_rxn.get(rid, []):
+                nid = glyph_node.get(e.glyph)
+                if nid is None or (e.drawn or "").startswith("mod:"):
+                    continue
+                drawn = e.drawn or e.role
+                sub_side = drawn in ("substrate", "sidesubstrate")
+                seg = e.segs[0]
+                b1 = b2 = None
+                if seg[0] == "C" and len(e.segs) == 1:      # curve from reaction port to metabolite
+                    b1, b2 = S(seg[2]), S(seg[3])
+                if sub_side:     # metabolite -> substrate-side multimarker (control points reversed)
+                    segments[new_id()] = {"from_node_id": nid, "to_node_id": m_in, "b1": b2, "b2": b1}
+                else:            # product-side multimarker -> metabolite
+                    segments[new_id()] = {"from_node_id": m_out, "to_node_id": nid, "b1": b1, "b2": b2}
+            lx, ly = label_xy(f"TG_R_{rid}", R, "reaction")
+            mets = [{"bigg_id": SP[m], "coefficient": -float(v)} for m, v in subs.items()]
+            mets += [{"bigg_id": SP[m], "coefficient": float(v)} for m, v in prods.items()]
+            reactions[new_id()] = {"name": rname, "bigg_id": bigg, "reversibility": bool(rrev),
+                                   "label_x": lx, "label_y": ly, "gene_reaction_rule": "", "genes": [],
+                                   "metabolites": mets, "segments": segments}
 
     _place_labels_escher(nodes, reactions, R_NODE, FONT)
 

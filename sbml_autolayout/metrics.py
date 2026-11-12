@@ -43,7 +43,7 @@ def layout_metrics(L: Layout, curator_primary: dict | None = None) -> dict:
     main = [e for e in L.edges if e.role in ("substrate", "product") and not e.glyph.count("__R_")]
     polys = [({e.rxn, e.species}, _poly(e.segs)) for e in main]
     lens = [math.dist(e.segs[0][1], e.segs[-1][-1]) for e in main]
-    labels = list(L.labels.values())
+    labels = [lb for lb in L.labels.values() if not lb.inside]     # sbgn: names inside nodes are part of them
     lab_ov = sum(1 for i in range(len(labels)) for j in range(i + 1, len(labels))
                  if not (labels[i].x + labels[i].w <= labels[j].x or labels[j].x + labels[j].w <= labels[i].x or
                          labels[i].y + labels[i].h <= labels[j].y or labels[j].y + labels[j].h <= labels[i].y))
@@ -113,20 +113,29 @@ def escher_reference_metrics(path: str) -> dict:
 def overlap_report(L: Layout) -> dict:
     """Hard overlaps that must be zero: nodes on nodes, labels on labels, labels on nodes."""
     P = L.params
-    nodes = [(f"M:{k}", p, P.met_radius) for k, p in L.met_pos.items()]
-    nodes += [(f"R:{k}", p, P.rxn_half * 1.2) for k, p in L.rxn_pos.items()]
-    nodes += [(f"C:{c.glyph}", c.pos, P.clone_radius + (1.5 if c.far else 0)) for c in L.clones]
-    nn = [(a[0], b[0]) for i, a in enumerate(nodes) for b in nodes[i + 1:]
-          if math.dist(a[1], b[1]) < a[2] + b[2] + 2]
-    labels = list(L.labels.values())
+    # (name, centre, half width, half height, round?)
+    nodes = [(f"M:{k}", p, L.met_dims(k)[0] / 2, L.met_dims(k)[1] / 2, not L.sbgn) for k, p in L.met_pos.items()]
+    nodes += [(f"R:{k}", p, P.rxn_half * 1.2, P.rxn_half * 1.2, True) for k, p in L.rxn_pos.items()]
+    nodes += [(f"C:{c.glyph}", c.pos, L.clone_dims(c)[0] / 2, L.clone_dims(c)[1] / 2,
+               L.clone_dims(c)[3] == "circle") for c in L.clones]
+
+    def touch(a, b) -> bool:
+        if a[4] and b[4]:
+            return math.dist(a[1], b[1]) < a[2] + b[2] + 2
+        return abs(a[1][0] - b[1][0]) < a[2] + b[2] + 1 and abs(a[1][1] - b[1][1]) < a[3] + b[3] + 1
+    nn = [(a[0], b[0]) for i, a in enumerate(nodes) for b in nodes[i + 1:] if touch(a, b)]
+    labels = [lb for lb in L.labels.values() if not lb.inside]     # sbgn: names inside nodes are part of them
     box = lambda l: (l.x, l.y, l.x + l.w, l.y + l.h)
     ll = [(a.glyph, b.glyph) for i, a in enumerate(labels) for b in labels[i + 1:]
           if not (box(a)[2] <= box(b)[0] or box(b)[2] <= box(a)[0] or box(a)[3] <= box(b)[1] or box(b)[3] <= box(a)[1])]
     ln = []
     for l in labels:
         x0, y0, x1, y1 = box(l)
-        for name, p, r in nodes:
-            cx, cy = min(max(p[0], x0), x1), min(max(p[1], y0), y1)
-            if math.dist((cx, cy), p) < r:
+        for name, p, hx, hy, round_ in nodes:
+            if round_:
+                cx, cy = min(max(p[0], x0), x1), min(max(p[1], y0), y1)
+                if math.dist((cx, cy), p) < hx:
+                    ln.append((l.glyph, name))
+            elif x0 < p[0] + hx and p[0] - hx < x1 and y0 < p[1] + hy and p[1] - hy < y1:
                 ln.append((l.glyph, name))
     return {"node_node": nn, "label_label": ll, "label_node": ln}
