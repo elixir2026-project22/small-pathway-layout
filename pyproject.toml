@@ -1,0 +1,18 @@
+[project]
+name = "sbml-autolayout"
+version = "0.10.0"
+description = "Automatic layout of metabolic pathway maps (SBML Layout, SVG, Escher)"
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = ["networkx>=2.6"]
+
+[project.scripts]
+sbml-autolayout = "sbml_autolayout.__main__:main"          # one map
+sbml-autolayout-batch = "sbml_autolayout.batch:main"       # many maps / whole folders
+
+[build-system]
+requires = ["uv_build>=0.8,<0.12"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-root = ""

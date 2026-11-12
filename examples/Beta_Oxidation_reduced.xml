@@ -1,0 +1,372 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" level="3" version="1">
+  <model id="new_map" name="new_map">
+    <listOfCompartments>
+      <compartment id="C_c" name="cytosol" constant="true"/>
+      <compartment id="C_m" name="mitochondrion" constant="true"/>
+    </listOfCompartments>
+    <listOfSpecies>
+      <species id="M_accoa_m" name="Acetyl-CoA" compartment="C_m" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="M_butcoaE_m" name="Crotonoyl-CoA(4-)" compartment="C_m" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="M_butcoa_m" name="Butanoyl-CoA" compartment="C_m" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="M_butcoaoh_m" name="3S-hydroxybutanoyl-CoA" compartment="C_m" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="M_butcoaox_m" name="Acetoacetyl-CoA" compartment="C_m" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="M_coa_c" name="Coenzyme A" compartment="C_c" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="M_coa_m" name="Coenzyme A" compartment="C_m" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="M_crn_c" name="L-Carnitine" compartment="C_c" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="M_crn_m" name="L-Carnitine" compartment="C_m" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="M_dcacoaE_m" name="2E,Decanoyl Coenzyme A (N-C10:0 Coenzyme A)" compartment="C_m" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="M_dcacoa_m" name="Decanoyl-CoA (n-C10:0CoA)" compartment="C_m" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="M_dcacoaoh_m" name="3-Hydroxy-Decanoyl Coenzyme A (N-C10:0 Coenzyme A)" compartment="C_m" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="M_dcacoaox_m" name="3-oxodecanoyl-CoA (n-C10:0 CoA)" compartment="C_m" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="M_ddcacoaE_m" name="2E,Lauroyl Coenzyme A" compartment="C_m" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="M_ddcacoa_m" name="Dodecanoyl-CoA (n-C12:0CoA)" compartment="C_m" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="M_ddcacoaoh_m" name="3-Hydroxy-Lauroyl Coenzyme A" compartment="C_m" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="M_ddcacoaox_m" name="3-oxododecanoyl-CoA" compartment="C_m" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="M_fad_m" name="Flavin adenine dinucleotide oxidized" compartment="C_m" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="M_fadh2_m" name="Flavin adenine dinucleotide reduced" compartment="C_m" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="M_h2o_m" name="Water" compartment="C_m" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="M_h_m" name="Proton" compartment="C_m" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="M_hcacoaE_m" name="Trans-2-hexenoyl-CoA" compartment="C_m" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="M_hcacoa_m" name="Hexanoyl-CoA (n-C6:0CoA)" compartment="C_m" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="M_hcacoaoh_m" name="3S-hydroxy-hexanoyl-CoA (n-C6:0 CoA)" compartment="C_m" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="M_hcacoaox_m" name="3-oxy-hexanoyl CoA (n-C6:0 CoA)" compartment="C_m" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="M_nad_m" name="Nicotinamide adenine dinucleotide" compartment="C_m" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="M_nadh_m" name="Nicotinamide adenine dinucleotide - reduced" compartment="C_m" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="M_occacoaE_m" name="(2E)-Octenoyl-CoA (N-C8:0 CoA)" compartment="C_m" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="M_occacoa_m" name="Octanoyl-CoA (n-C8:0CoA)" compartment="C_m" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="M_occacoaox_m" name="3-Oxy-Octanoyl-CoA (n-C8:0 CoA)" compartment="C_m" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="M_tedcacoaE_m" name="(2E)-tetradecenoyl-CoA (4-)" compartment="C_m" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="M_tedcacoa_c" name="Tetradecanoyl-CoA (n-C14:0CoA)" compartment="C_c" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="M_tedcacoa_m" name="Tetradecanoyl-CoA (n-C14:0CoA)" compartment="C_m" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="M_tedcacoaoh_m" name="(S)-3-hydroxytetradecanoyl-CoA" compartment="C_m" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="M_tedcacoaox_m" name="3-oxotetradecanoyl-CoA" compartment="C_m" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="M_tedcacrn_c" name="Tetradecenoylcarnitine(5)" compartment="C_c" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="M_tedcacrn_m" name="Tetradecenoylcarnitine(5)" compartment="C_m" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+    </listOfSpecies>
+    <listOfReactions>
+      <reaction id="R_ACOAD1fm" name="Acyl Coenzyme A Dehydrogenase (Butanoyl Coenzyme A), Mitochondrial" reversible="false" fast="false">
+        <notes><body xmlns="http://www.w3.org/1999/xhtml">
+          <p>main_metabolites: M_butcoaE_m, M_butcoa_m</p>
+        </body></notes>
+        <listOfReactants>
+          <speciesReference species="M_butcoa_m" stoichiometry="1" constant="true"/>
+          <speciesReference species="M_fad_m" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="M_butcoaE_m" stoichiometry="1" constant="true"/>
+          <speciesReference species="M_fadh2_m" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="R_B2COAHm" name="Crotonoyl-CoA hydration to 3-Hydroxybutanoyl-CoA ([m], Kidney)" reversible="false" fast="false">
+        <notes><body xmlns="http://www.w3.org/1999/xhtml">
+          <p>main_metabolites: M_butcoaE_m, M_butcoaoh_m</p>
+        </body></notes>
+        <listOfReactants>
+          <speciesReference species="M_butcoaE_m" stoichiometry="1" constant="true"/>
+          <speciesReference species="M_h2o_m" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="M_butcoaoh_m" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="R_BTCOAOHFAOXNADm" name=" 3-Hydroxy-Butanoyl Coenzyme A oxidation to 3-Oxy-Butanoyl Coenzyme A, mitochondrial " reversible="false" fast="false">
+        <notes><body xmlns="http://www.w3.org/1999/xhtml">
+          <p>main_metabolites: M_butcoaoh_m, M_butcoaox_m</p>
+        </body></notes>
+        <listOfReactants>
+          <speciesReference species="M_nad_m" stoichiometry="1" constant="true"/>
+          <speciesReference species="M_butcoaoh_m" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="M_h_m" stoichiometry="1" constant="true"/>
+          <speciesReference species="M_nadh_m" stoichiometry="1" constant="true"/>
+          <speciesReference species="M_butcoaox_m" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="R_BTCOAOXFAOXCOAm" name=" 3-Oxy-Butanoyl Coenzyme A thiolysis to Acetyl Coenzyme A, mitochondrial " reversible="false" fast="false">
+        <notes><body xmlns="http://www.w3.org/1999/xhtml">
+          <p>main_metabolites: M_accoa_m, M_butcoaox_m</p>
+        </body></notes>
+        <listOfReactants>
+          <speciesReference species="M_coa_m" stoichiometry="1" constant="true"/>
+          <speciesReference species="M_butcoaox_m" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="M_accoa_m" stoichiometry="2" constant="true"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="R_C140CPT1" name="Production of Myristoylcarnitine" reversible="true" fast="false">
+        <notes><body xmlns="http://www.w3.org/1999/xhtml">
+          <p>main_metabolites: M_crn_c, M_tedcacoa_c, M_tedcacrn_c</p>
+        </body></notes>
+        <listOfReactants>
+          <speciesReference species="M_crn_c" stoichiometry="1" constant="true"/>
+          <speciesReference species="M_tedcacoa_c" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="M_coa_c" stoichiometry="1" constant="true"/>
+          <speciesReference species="M_tedcacrn_c" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="R_DCACOAEFAOXHDm" name=" 2E,Decanoyl Coenzyme A (N-C10:0 Coenzyme A) hydration to 3-Hydroxy-Decanoyl Coenzyme A (N-C10:0 Coenzyme A), mitochondrial " reversible="false" fast="false">
+        <notes><body xmlns="http://www.w3.org/1999/xhtml">
+          <p>main_metabolites: M_dcacoaE_m, M_dcacoaoh_m</p>
+        </body></notes>
+        <listOfReactants>
+          <speciesReference species="M_h2o_m" stoichiometry="1" constant="true"/>
+          <speciesReference species="M_dcacoaE_m" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="M_dcacoaoh_m" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="R_DCACOAFAOXFADm" name=" Decanoyl Coenzyme A (N-C10:0 Coenzyme A) oxidation to 2E,Decanoyl Coenzyme A (N-C10:0 Coenzyme A) (FADH2), mitochondrial " reversible="false" fast="false">
+        <notes><body xmlns="http://www.w3.org/1999/xhtml">
+          <p>main_metabolites: M_dcacoaE_m, M_dcacoa_m</p>
+        </body></notes>
+        <listOfReactants>
+          <speciesReference species="M_fad_m" stoichiometry="1" constant="true"/>
+          <speciesReference species="M_dcacoa_m" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="M_fadh2_m" stoichiometry="1" constant="true"/>
+          <speciesReference species="M_dcacoaE_m" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="R_DCACOAOHFAOXNADmm" name="3-Hydroxy-dcaCoA[m] oxidation to 3-Oxy-dcaCoA[m], mitochondrial " reversible="false" fast="false">
+        <notes><body xmlns="http://www.w3.org/1999/xhtml">
+          <p>main_metabolites: M_dcacoaoh_m, M_dcacoaox_m</p>
+        </body></notes>
+        <listOfReactants>
+          <speciesReference species="M_dcacoaoh_m" stoichiometry="1" constant="true"/>
+          <speciesReference species="M_nad_m" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="M_dcacoaox_m" stoichiometry="1" constant="true"/>
+          <speciesReference species="M_h_m" stoichiometry="1" constant="true"/>
+          <speciesReference species="M_nadh_m" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="R_DCACOAOXFAOXCOAm" name=" 3-Oxy-Decanoyl Coenzyme A (N-C10:0 Coenzyme A) thiolysis to Octanoyl Coenzyme A (N-C8:0 Coenzyme A), mitochondrial " reversible="false" fast="false">
+        <notes><body xmlns="http://www.w3.org/1999/xhtml">
+          <p>main_metabolites: M_dcacoaox_m, M_occacoa_m</p>
+        </body></notes>
+        <listOfReactants>
+          <speciesReference species="M_coa_m" stoichiometry="1" constant="true"/>
+          <speciesReference species="M_dcacoaox_m" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="M_accoa_m" stoichiometry="1" constant="true"/>
+          <speciesReference species="M_occacoa_m" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="R_DDCACOAEFAOXHDmm" name="2E,ddcaCoA[m] hydration to 3-Hydroxy-ddcaCoA[m], mitochondrial " reversible="false" fast="false">
+        <notes><body xmlns="http://www.w3.org/1999/xhtml">
+          <p>main_metabolites: M_ddcacoaE_m, M_ddcacoaoh_m</p>
+        </body></notes>
+        <listOfReactants>
+          <speciesReference species="M_ddcacoaE_m" stoichiometry="1" constant="true"/>
+          <speciesReference species="M_h2o_m" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="M_ddcacoaoh_m" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="R_DDCACOAFAOXFADmm" name="DDcaCoA[m] oxiDation to 2E,DDcaCoA[m] (FADH2), mitochonDrial " reversible="false" fast="false">
+        <notes><body xmlns="http://www.w3.org/1999/xhtml">
+          <p>main_metabolites: M_ddcacoaE_m, M_ddcacoa_m</p>
+        </body></notes>
+        <listOfReactants>
+          <speciesReference species="M_ddcacoa_m" stoichiometry="1" constant="true"/>
+          <speciesReference species="M_fad_m" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="M_ddcacoaE_m" stoichiometry="1" constant="true"/>
+          <speciesReference species="M_fadh2_m" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="R_DDCACOAOHFAOXNADmm" name="3-Hydroxy-ddcaCoA[m] oxidation to 3-Oxy-ddcaCoA[m], mitochondrial " reversible="false" fast="false">
+        <notes><body xmlns="http://www.w3.org/1999/xhtml">
+          <p>main_metabolites: M_ddcacoaoh_m, M_ddcacoaox_m</p>
+        </body></notes>
+        <listOfReactants>
+          <speciesReference species="M_ddcacoaoh_m" stoichiometry="1" constant="true"/>
+          <speciesReference species="M_nad_m" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="M_ddcacoaox_m" stoichiometry="1" constant="true"/>
+          <speciesReference species="M_h_m" stoichiometry="1" constant="true"/>
+          <speciesReference species="M_nadh_m" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="R_DDCACOAOXFAOXCOAm" name=" 3-Oxy-Lauroyl Coenzyme A thiolysis to Decanoyl Coenzyme A (N-C10:0 Coenzyme A), mitochondrial " reversible="false" fast="false">
+        <notes><body xmlns="http://www.w3.org/1999/xhtml">
+          <p>main_metabolites: M_dcacoa_m, M_ddcacoaox_m</p>
+        </body></notes>
+        <listOfReactants>
+          <speciesReference species="M_coa_m" stoichiometry="1" constant="true"/>
+          <speciesReference species="M_ddcacoaox_m" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="M_accoa_m" stoichiometry="1" constant="true"/>
+          <speciesReference species="M_dcacoa_m" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="R_HCACOAEFAOXHDmm" name="2E,hcaCoA[m] hydration to 3-Hydroxy-hcaCoA[m], mitochondrial " reversible="false" fast="false">
+        <notes><body xmlns="http://www.w3.org/1999/xhtml">
+          <p>main_metabolites: M_hcacoaE_m, M_hcacoaoh_m</p>
+        </body></notes>
+        <listOfReactants>
+          <speciesReference species="M_h2o_m" stoichiometry="1" constant="true"/>
+          <speciesReference species="M_hcacoaE_m" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="M_hcacoaoh_m" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="R_HCACOAOHFAOXNADmm" name="3-Hydroxy-hcaCoA[m] oxidation to 3-Oxy-hcaCoA[m], mitochondrial " reversible="false" fast="false">
+        <notes><body xmlns="http://www.w3.org/1999/xhtml">
+          <p>main_metabolites: M_hcacoaoh_m, M_hcacoaox_m</p>
+        </body></notes>
+        <listOfReactants>
+          <speciesReference species="M_hcacoaoh_m" stoichiometry="1" constant="true"/>
+          <speciesReference species="M_nad_m" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="M_h_m" stoichiometry="1" constant="true"/>
+          <speciesReference species="M_hcacoaox_m" stoichiometry="1" constant="true"/>
+          <speciesReference species="M_nadh_m" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="R_HCACOAOXFAOXCOAmm" name="3-Oxy-hcaCoA[m] thiolysis to butCoA[m], mitochondrial " reversible="false" fast="false">
+        <notes><body xmlns="http://www.w3.org/1999/xhtml">
+          <p>main_metabolites: M_butcoa_m, M_hcacoaox_m</p>
+        </body></notes>
+        <listOfReactants>
+          <speciesReference species="M_coa_m" stoichiometry="1" constant="true"/>
+          <speciesReference species="M_hcacoaox_m" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="M_accoa_m" stoichiometry="1" constant="true"/>
+          <speciesReference species="M_butcoa_m" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="R_HMR_3149" name="Medium-Chain Acyl Coenzyme A Dehydrogenase" reversible="false" fast="false">
+        <notes><body xmlns="http://www.w3.org/1999/xhtml">
+          <p>main_metabolites: M_occacoaE_m, M_occacoa_m</p>
+        </body></notes>
+        <listOfReactants>
+          <speciesReference species="M_fad_m" stoichiometry="1" constant="true"/>
+          <speciesReference species="M_occacoa_m" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="M_fadh2_m" stoichiometry="1" constant="true"/>
+          <speciesReference species="M_occacoaE_m" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="R_HMR_3156" name="2-Methyl-Branched-Chain-Enoyl Coenzyme A Reductase" reversible="false" fast="false">
+        <notes><body xmlns="http://www.w3.org/1999/xhtml">
+          <p>main_metabolites: M_hcacoaE_m, M_hcacoa_m</p>
+        </body></notes>
+        <listOfReactants>
+          <speciesReference species="M_fad_m" stoichiometry="1" constant="true"/>
+          <speciesReference species="M_hcacoa_m" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="M_fadh2_m" stoichiometry="1" constant="true"/>
+          <speciesReference species="M_hcacoaE_m" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="R_OCCACOAOXFAOXCOAmm" name="3-Oxy-occaCoA[m] thiolysis to hcaCoA[m], mitochondrial " reversible="false" fast="false">
+        <notes><body xmlns="http://www.w3.org/1999/xhtml">
+          <p>main_metabolites: M_hcacoa_m, M_occacoaox_m</p>
+        </body></notes>
+        <listOfReactants>
+          <speciesReference species="M_coa_m" stoichiometry="1" constant="true"/>
+          <speciesReference species="M_occacoaox_m" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="M_accoa_m" stoichiometry="1" constant="true"/>
+          <speciesReference species="M_hcacoa_m" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="R_TEDCACOAEFAOXHDm" name="(2E)-Tetradecenoyl-CoA hydration to (S)-3-Hydroxytetradecanoyl-CoA " reversible="false" fast="false">
+        <notes><body xmlns="http://www.w3.org/1999/xhtml">
+          <p>main_metabolites: M_tedcacoaE_m, M_tedcacoaoh_m</p>
+        </body></notes>
+        <listOfReactants>
+          <speciesReference species="M_h2o_m" stoichiometry="1" constant="true"/>
+          <speciesReference species="M_tedcacoaE_m" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="M_tedcacoaoh_m" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="R_TEDCACOAFAOXFADm" name="Tetradecanoyl-CoA oxidation to (2E)-Tetradecenoyl-CoA (FADH2) " reversible="false" fast="false">
+        <notes><body xmlns="http://www.w3.org/1999/xhtml">
+          <p>main_metabolites: M_tedcacoaE_m, M_tedcacoa_m</p>
+        </body></notes>
+        <listOfReactants>
+          <speciesReference species="M_fad_m" stoichiometry="1" constant="true"/>
+          <speciesReference species="M_tedcacoa_m" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="M_fadh2_m" stoichiometry="1" constant="true"/>
+          <speciesReference species="M_tedcacoaE_m" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="R_TEDCACOAOHFAOXNADmm" name="3-Hydroxy-tedcaCoA[m] oxidation to 3-Oxy-tedcaCoA[m], mitochondrial " reversible="false" fast="false">
+        <notes><body xmlns="http://www.w3.org/1999/xhtml">
+          <p>main_metabolites: M_tedcacoaoh_m, M_tedcacoaox_m</p>
+        </body></notes>
+        <listOfReactants>
+          <speciesReference species="M_nad_m" stoichiometry="1" constant="true"/>
+          <speciesReference species="M_tedcacoaoh_m" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="M_h_m" stoichiometry="1" constant="true"/>
+          <speciesReference species="M_nadh_m" stoichiometry="1" constant="true"/>
+          <speciesReference species="M_tedcacoaox_m" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="R_TEDCACOAOXFAOXCOAmm" name="3-Oxy-tedcaCoA[m] thiolysis to ddcaCoA[m], mitochondrial " reversible="false" fast="false">
+        <notes><body xmlns="http://www.w3.org/1999/xhtml">
+          <p>main_metabolites: M_ddcacoa_m, M_tedcacoaox_m</p>
+        </body></notes>
+        <listOfReactants>
+          <speciesReference species="M_coa_m" stoichiometry="1" constant="true"/>
+          <speciesReference species="M_tedcacoaox_m" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="M_accoa_m" stoichiometry="1" constant="true"/>
+          <speciesReference species="M_ddcacoa_m" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="R_TEDCACRNt" name="Transport into the Mitochondria (Carnitine)" reversible="true" fast="false">
+        <notes><body xmlns="http://www.w3.org/1999/xhtml">
+          <p>main_metabolites: M_tedcacrn_c, M_tedcacrn_m</p>
+        </body></notes>
+        <listOfReactants>
+          <speciesReference species="M_tedcacrn_c" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="M_tedcacrn_m" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+      </reaction>
+      <reaction id="R_TTDCPT2" name="Carnitine Transferase" reversible="true" fast="false">
+        <notes><body xmlns="http://www.w3.org/1999/xhtml">
+          <p>main_metabolites: M_crn_m, M_tedcacoa_m, M_tedcacrn_m</p>
+        </body></notes>
+        <listOfReactants>
+          <speciesReference species="M_coa_m" stoichiometry="1" constant="true"/>
+          <speciesReference species="M_tedcacrn_m" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="M_crn_m" stoichiometry="1" constant="true"/>
+          <speciesReference species="M_tedcacoa_m" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+      </reaction>
+    </listOfReactions>
+  </model>
+</sbml>

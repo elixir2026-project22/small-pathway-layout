@@ -1,0 +1,1013 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" xmlns:fbc="http://www.sbml.org/sbml/level3/version1/fbc/version2" xmlns:groups="http://www.sbml.org/sbml/level3/version1/groups/version1" sboTerm="SBO:0000624" level="3" version="1" fbc:required="false" groups:required="false">
+  <model metaid="meta_pw_2b5fe946" id="pw_2b5fe946" name="urea cycle" fbc:strict="true">
+    <notes>
+      <html xmlns="http://www.w3.org/1999/xhtml">
+        <p>pathway_id: pw_2b5fe946</p>
+        <p>category: Central and energy metabolism</p>
+      </html>
+    </notes>
+    <listOfUnitDefinitions>
+      <unitDefinition id="mmol_per_gDW_per_hr">
+        <listOfUnits>
+          <unit kind="mole" exponent="1" scale="-3" multiplier="1"/>
+          <unit kind="gram" exponent="-1" scale="0" multiplier="1"/>
+          <unit kind="second" exponent="-1" scale="0" multiplier="3600"/>
+        </listOfUnits>
+      </unitDefinition>
+    </listOfUnitDefinitions>
+    <listOfCompartments>
+      <compartment id="c" name="default" constant="true"/>
+    </listOfCompartments>
+    <listOfSpecies>
+      <species metaid="meta_M_mt_0de283c3a3" sboTerm="SBO:0000247" id="M_mt_0de283c3a3" name="L-aspartate" compartment="c" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false">
+        <notes>
+          <html xmlns="http://www.w3.org/1999/xhtml">
+            <p>inchi: InChI=1S/C4H7NO4/c5-2(4(8)9)1-3(6)7/h2H,1,5H2,(H,6,7)(H,8,9)/t2-/m0/s1</p>
+          </html>
+        </notes>
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:vCard4="http://www.w3.org/2006/vcard/ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+            <rdf:Description rdf:about="#meta_M_mt_0de283c3a3">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="https://identifiers.org/chebi/CHEBI:17053"/>
+                  <rdf:li rdf:resource="https://identifiers.org/pubchem.compound/139060126"/>
+                  <rdf:li rdf:resource="https://identifiers.org/pubchem.compound/173074227"/>
+                  <rdf:li rdf:resource="https://identifiers.org/pubchem.compound/44367445"/>
+                  <rdf:li rdf:resource="https://identifiers.org/pubchem.compound/5960"/>
+                  <rdf:li rdf:resource="https://identifiers.org/chembl.compound/CHEMBL274323"/>
+                  <rdf:li rdf:resource="https://identifiers.org/inchikey/InChIKey=CKLJMWTZIZZHCS-REOHCLBHSA-N"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+      </species>
+      <species metaid="meta_M_mt_1b1223fff4" sboTerm="SBO:0000247" id="M_mt_1b1223fff4" name="H2O" compartment="c" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false">
+        <notes>
+          <html xmlns="http://www.w3.org/1999/xhtml">
+            <p>inchi: InChI=1S/H2O/h1H2</p>
+          </html>
+        </notes>
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:vCard4="http://www.w3.org/2006/vcard/ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+            <rdf:Description rdf:about="#meta_M_mt_1b1223fff4">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="https://identifiers.org/chebi/CHEBI:15377"/>
+                  <rdf:li rdf:resource="https://identifiers.org/pubchem.compound/22247451"/>
+                  <rdf:li rdf:resource="https://identifiers.org/pubchem.compound/962"/>
+                  <rdf:li rdf:resource="https://identifiers.org/chembl.compound/CHEMBL1098659"/>
+                  <rdf:li rdf:resource="https://identifiers.org/inchikey/InChIKey=XLYOFNOQVPJJNP-UHFFFAOYSA-N"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+      </species>
+      <species metaid="meta_M_mt_3577006728" sboTerm="SBO:0000247" id="M_mt_3577006728" name="phosphate" compartment="c" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false">
+        <notes>
+          <html xmlns="http://www.w3.org/1999/xhtml">
+            <p>inchi: InChI=1S/H3O4P/c1-5(2,3)4/h(H3,1,2,3,4)</p>
+          </html>
+        </notes>
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:vCard4="http://www.w3.org/2006/vcard/ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+            <rdf:Description rdf:about="#meta_M_mt_3577006728">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="https://identifiers.org/chebi/CHEBI:26078"/>
+                  <rdf:li rdf:resource="https://identifiers.org/chebi/CHEBI:52641"/>
+                  <rdf:li rdf:resource="https://identifiers.org/pubchem.compound/1004"/>
+                  <rdf:li rdf:resource="https://identifiers.org/pubchem.compound/172995034"/>
+                  <rdf:li rdf:resource="https://identifiers.org/pubchem.compound/173209996"/>
+                  <rdf:li rdf:resource="https://identifiers.org/pubchem.compound/22486802"/>
+                  <rdf:li rdf:resource="https://identifiers.org/chembl.compound/CHEMBL1187"/>
+                  <rdf:li rdf:resource="https://identifiers.org/inchikey/InChIKey=NBIIXXVUZAFLBC-UHFFFAOYSA-N"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+      </species>
+      <species metaid="meta_M_mt_6ea7392d87" sboTerm="SBO:0000247" id="M_mt_6ea7392d87" name="fumarate" compartment="c" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false">
+        <notes>
+          <html xmlns="http://www.w3.org/1999/xhtml">
+            <p>inchi: InChI=1S/C4H4O4/c5-3(6)1-2-4(7)8/h1-2H,(H,5,6)(H,7,8)/b2-1+</p>
+          </html>
+        </notes>
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:vCard4="http://www.w3.org/2006/vcard/ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+            <rdf:Description rdf:about="#meta_M_mt_6ea7392d87">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="https://identifiers.org/chebi/CHEBI:18012"/>
+                  <rdf:li rdf:resource="https://identifiers.org/pubchem.compound/173073039"/>
+                  <rdf:li rdf:resource="https://identifiers.org/pubchem.compound/21883788"/>
+                  <rdf:li rdf:resource="https://identifiers.org/pubchem.compound/444972"/>
+                  <rdf:li rdf:resource="https://identifiers.org/chembl.compound/CHEMBL503160"/>
+                  <rdf:li rdf:resource="https://identifiers.org/inchikey/InChIKey=VZCYOOQTPOCHFL-OWOJBTEDSA-N"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+      </species>
+      <species metaid="meta_M_mt_7133524672" sboTerm="SBO:0000247" id="M_mt_7133524672" name="ADP" compartment="c" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false">
+        <notes>
+          <html xmlns="http://www.w3.org/1999/xhtml">
+            <p>inchi: InChI=1S/C10H15N5O10P2/c11-8-5-9(13-2-12-8)15(3-14-5)10-7(17)6(16)4(24-10)1-23-27(21,22)25-26(18,19)20/h2-4,6-7,10,16-17H,1H2,(H,21,22)(H2,11,12,13)(H2,18,19,20)/t4-,6-,7-,10-/m1/s1</p>
+          </html>
+        </notes>
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:vCard4="http://www.w3.org/2006/vcard/ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+            <rdf:Description rdf:about="#meta_M_mt_7133524672">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="https://identifiers.org/chebi/CHEBI:16761"/>
+                  <rdf:li rdf:resource="https://identifiers.org/pubchem.compound/6022"/>
+                  <rdf:li rdf:resource="https://identifiers.org/chembl.compound/CHEMBL14830"/>
+                  <rdf:li rdf:resource="https://identifiers.org/inchikey/InChIKey=XTWYTFMLZFPYCI-KQYNXXCUSA-N"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+      </species>
+      <species metaid="meta_M_mt_73617a0182" sboTerm="SBO:0000247" id="M_mt_73617a0182" name="Carbamoyl phosphate" compartment="c" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false">
+        <notes>
+          <html xmlns="http://www.w3.org/1999/xhtml">
+            <p>inchi: InChI=1S/CH4NO5P/c2-1(3)7-8(4,5)6/h(H2,2,3)(H2,4,5,6)</p>
+          </html>
+        </notes>
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:vCard4="http://www.w3.org/2006/vcard/ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+            <rdf:Description rdf:about="#meta_M_mt_73617a0182">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="https://identifiers.org/chebi/CHEBI:17672"/>
+                  <rdf:li rdf:resource="https://identifiers.org/pubchem.compound/278"/>
+                  <rdf:li rdf:resource="https://identifiers.org/chembl.compound/CHEMBL369105"/>
+                  <rdf:li rdf:resource="https://identifiers.org/inchikey/InChIKey=FFQKYPRQEYGKAF-UHFFFAOYSA-N"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+      </species>
+      <species metaid="meta_M_mt_74828531e0" sboTerm="SBO:0000247" id="M_mt_74828531e0" name="HCO3-" compartment="c" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false">
+        <notes>
+          <html xmlns="http://www.w3.org/1999/xhtml">
+            <p>inchi: InChI=1S/CH2O3/c2-1(3)4/h(H2,2,3,4)/p-1</p>
+          </html>
+        </notes>
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:vCard4="http://www.w3.org/2006/vcard/ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+            <rdf:Description rdf:about="#meta_M_mt_74828531e0">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="https://identifiers.org/chebi/CHEBI:17544"/>
+                  <rdf:li rdf:resource="https://identifiers.org/pubchem.compound/22647601"/>
+                  <rdf:li rdf:resource="https://identifiers.org/pubchem.compound/769"/>
+                  <rdf:li rdf:resource="https://identifiers.org/inchikey/InChIKey=BVKZGUZCCUSVTD-UHFFFAOYSA-M"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+      </species>
+      <species metaid="meta_M_mt_75d2d46d2f" sboTerm="SBO:0000247" id="M_mt_75d2d46d2f" name="L-citrulline" compartment="c" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false">
+        <notes>
+          <html xmlns="http://www.w3.org/1999/xhtml">
+            <p>inchi: InChI=1S/C6H13N3O3/c7-4(5(10)11)2-1-3-9-6(8)12/h4H,1-3,7H2,(H,10,11)(H3,8,9,12)/t4-/m0/s1</p>
+          </html>
+        </notes>
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:vCard4="http://www.w3.org/2006/vcard/ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+            <rdf:Description rdf:about="#meta_M_mt_75d2d46d2f">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="https://identifiers.org/chebi/CHEBI:16349"/>
+                  <rdf:li rdf:resource="https://identifiers.org/chebi/CHEBI:57743"/>
+                  <rdf:li rdf:resource="https://identifiers.org/pubchem.compound/6992098"/>
+                  <rdf:li rdf:resource="https://identifiers.org/pubchem.compound/9750"/>
+                  <rdf:li rdf:resource="https://identifiers.org/chembl.compound/CHEMBL444814"/>
+                  <rdf:li rdf:resource="https://identifiers.org/inchikey/InChIKey=RHGKLRLOHDJJDR-BYPYZUCNSA-N"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+      </species>
+      <species metaid="meta_M_mt_7fdd97c6e1" sboTerm="SBO:0000247" id="M_mt_7fdd97c6e1" name="AMP" compartment="c" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false">
+        <notes>
+          <html xmlns="http://www.w3.org/1999/xhtml">
+            <p>inchi: InChI=1S/C10H14N5O7P/c11-8-5-9(13-2-12-8)15(3-14-5)10-7(17)6(16)4(22-10)1-21-23(18,19)20/h2-4,6-7,10,16-17H,1H2,(H2,11,12,13)(H2,18,19,20)/t4-,6-,7-,10-/m1/s1</p>
+          </html>
+        </notes>
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:vCard4="http://www.w3.org/2006/vcard/ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+            <rdf:Description rdf:about="#meta_M_mt_7fdd97c6e1">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="https://identifiers.org/chebi/CHEBI:16027"/>
+                  <rdf:li rdf:resource="https://identifiers.org/pubchem.compound/6083"/>
+                  <rdf:li rdf:resource="https://identifiers.org/chembl.compound/CHEMBL752"/>
+                  <rdf:li rdf:resource="https://identifiers.org/inchikey/InChIKey=UDMBCSSLTHHNCD-KQYNXXCUSA-N"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+      </species>
+      <species metaid="meta_M_mt_82e3f482bf" sboTerm="SBO:0000247" id="M_mt_82e3f482bf" name="ATP" compartment="c" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false">
+        <notes>
+          <html xmlns="http://www.w3.org/1999/xhtml">
+            <p>inchi: InChI=1S/C10H16N5O13P3/c11-8-5-9(13-2-12-8)15(3-14-5)10-7(17)6(16)4(26-10)1-25-30(21,22)28-31(23,24)27-29(18,19)20/h2-4,6-7,10,16-17H,1H2,(H,21,22)(H,23,24)(H2,11,12,13)(H2,18,19,20)/t4-,6-,7-,10-/m1/s1</p>
+          </html>
+        </notes>
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:vCard4="http://www.w3.org/2006/vcard/ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+            <rdf:Description rdf:about="#meta_M_mt_82e3f482bf">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="https://identifiers.org/chebi/CHEBI:15422"/>
+                  <rdf:li rdf:resource="https://identifiers.org/pubchem.compound/5957"/>
+                  <rdf:li rdf:resource="https://identifiers.org/chembl.compound/CHEMBL14249"/>
+                  <rdf:li rdf:resource="https://identifiers.org/inchikey/InChIKey=ZKHQWZAMYRWXGA-KQYNXXCUSA-N"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+      </species>
+      <species metaid="meta_M_mt_98318d535e" sboTerm="SBO:0000247" id="M_mt_98318d535e" name="argininosuccinate" compartment="c" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false">
+        <notes>
+          <html xmlns="http://www.w3.org/1999/xhtml">
+            <p>inchi: InChI=1S/C10H18N4O6/c11-5(8(17)18)2-1-3-13-10(12)14-6(9(19)20)4-7(15)16/h5-6H,1-4,11H2,(H,15,16)(H,17,18)(H,19,20)(H3,12,13,14)/t5-,6-/m0/s1</p>
+          </html>
+        </notes>
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:vCard4="http://www.w3.org/2006/vcard/ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+            <rdf:Description rdf:about="#meta_M_mt_98318d535e">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="https://identifiers.org/chebi/CHEBI:184023"/>
+                  <rdf:li rdf:resource="https://identifiers.org/pubchem.compound/136664755"/>
+                  <rdf:li rdf:resource="https://identifiers.org/pubchem.compound/16950"/>
+                  <rdf:li rdf:resource="https://identifiers.org/inchikey/InChIKey=KDZOASGQNOPSCU-WDSKDSINSA-N"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+      </species>
+      <species metaid="meta_M_mt_9cf23c7e50" sboTerm="SBO:0000247" id="M_mt_9cf23c7e50" name="CO2" compartment="c" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false">
+        <notes>
+          <html xmlns="http://www.w3.org/1999/xhtml">
+            <p>inchi: InChI=1S/CO2/c2-1-3</p>
+          </html>
+        </notes>
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:vCard4="http://www.w3.org/2006/vcard/ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+            <rdf:Description rdf:about="#meta_M_mt_9cf23c7e50">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="https://identifiers.org/chebi/CHEBI:16526"/>
+                  <rdf:li rdf:resource="https://identifiers.org/pubchem.compound/280"/>
+                  <rdf:li rdf:resource="https://identifiers.org/chembl.compound/CHEMBL1231871"/>
+                  <rdf:li rdf:resource="https://identifiers.org/inchikey/InChIKey=CURLTUGMZLYLDI-UHFFFAOYSA-N"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+      </species>
+      <species metaid="meta_M_mt_9e164fa705" sboTerm="SBO:0000247" id="M_mt_9e164fa705" name="L-ornithine" compartment="c" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false">
+        <notes>
+          <html xmlns="http://www.w3.org/1999/xhtml">
+            <p>inchi: InChI=1S/C5H12N2O2/c6-3-1-2-4(7)5(8)9/h4H,1-3,6-7H2,(H,8,9)/t4-/m0/s1</p>
+          </html>
+        </notes>
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:vCard4="http://www.w3.org/2006/vcard/ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+            <rdf:Description rdf:about="#meta_M_mt_9e164fa705">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="https://identifiers.org/chebi/CHEBI:15729"/>
+                  <rdf:li rdf:resource="https://identifiers.org/pubchem.compound/6262"/>
+                  <rdf:li rdf:resource="https://identifiers.org/pubchem.compound/88747248"/>
+                  <rdf:li rdf:resource="https://identifiers.org/chembl.compound/CHEMBL446143"/>
+                  <rdf:li rdf:resource="https://identifiers.org/inchikey/InChIKey=AHLPHDHHMVZTML-BYPYZUCNSA-N"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+      </species>
+      <species metaid="meta_M_mt_a582428d9f" sboTerm="SBO:0000247" id="M_mt_a582428d9f" name="NH3" compartment="c" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false">
+        <notes>
+          <html xmlns="http://www.w3.org/1999/xhtml">
+            <p>inchi: InChI=1S/H3N/h1H3</p>
+          </html>
+        </notes>
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:vCard4="http://www.w3.org/2006/vcard/ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+            <rdf:Description rdf:about="#meta_M_mt_a582428d9f">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="https://identifiers.org/chebi/CHEBI:16134"/>
+                  <rdf:li rdf:resource="https://identifiers.org/chebi/CHEBI:749163"/>
+                  <rdf:li rdf:resource="https://identifiers.org/pubchem.compound/222"/>
+                  <rdf:li rdf:resource="https://identifiers.org/chembl.compound/CHEMBL1160819"/>
+                  <rdf:li rdf:resource="https://identifiers.org/inchikey/InChIKey=QGZKDVFQNNGYKY-UHFFFAOYSA-N"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+      </species>
+      <species metaid="meta_M_mt_bdcc7261de" sboTerm="SBO:0000247" id="M_mt_bdcc7261de" name="diphosphate" compartment="c" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false">
+        <notes>
+          <html xmlns="http://www.w3.org/1999/xhtml">
+            <p>inchi: InChI=1S/H4O7P2/c1-8(2,3)7-9(4,5)6/h(H2,1,2,3)(H2,4,5,6)</p>
+          </html>
+        </notes>
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:vCard4="http://www.w3.org/2006/vcard/ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+            <rdf:Description rdf:about="#meta_M_mt_bdcc7261de">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="https://identifiers.org/chebi/CHEBI:29888"/>
+                  <rdf:li rdf:resource="https://identifiers.org/pubchem.compound/1023"/>
+                  <rdf:li rdf:resource="https://identifiers.org/pubchem.compound/173008659"/>
+                  <rdf:li rdf:resource="https://identifiers.org/pubchem.compound/21961011"/>
+                  <rdf:li rdf:resource="https://identifiers.org/chembl.compound/CHEMBL1160571"/>
+                  <rdf:li rdf:resource="https://identifiers.org/inchikey/InChIKey=XPPKVPWEQAFLFU-UHFFFAOYSA-N"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+      </species>
+      <species metaid="meta_M_mt_e5dc9628b1" sboTerm="SBO:0000247" id="M_mt_e5dc9628b1" name="Urea" compartment="c" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false">
+        <notes>
+          <html xmlns="http://www.w3.org/1999/xhtml">
+            <p>inchi: InChI=1S/CH4N2O/c2-1(3)4/h(H4,2,3,4)</p>
+          </html>
+        </notes>
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:vCard4="http://www.w3.org/2006/vcard/ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+            <rdf:Description rdf:about="#meta_M_mt_e5dc9628b1">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="https://identifiers.org/chebi/CHEBI:16199"/>
+                  <rdf:li rdf:resource="https://identifiers.org/chebi/CHEBI:48376"/>
+                  <rdf:li rdf:resource="https://identifiers.org/pubchem.compound/1176"/>
+                  <rdf:li rdf:resource="https://identifiers.org/chembl.compound/CHEMBL985"/>
+                  <rdf:li rdf:resource="https://identifiers.org/inchikey/InChIKey=XSQUKJJJFZCRTK-UHFFFAOYSA-N"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+      </species>
+      <species metaid="meta_M_mt_f25ff329c6" sboTerm="SBO:0000247" id="M_mt_f25ff329c6" name="L-arginine" compartment="c" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false">
+        <notes>
+          <html xmlns="http://www.w3.org/1999/xhtml">
+            <p>inchi: InChI=1S/C6H14N4O2/c7-4(5(11)12)2-1-3-10-6(8)9/h4H,1-3,7H2,(H,11,12)(H4,8,9,10)/t4-/m0/s1</p>
+          </html>
+        </notes>
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:vCard4="http://www.w3.org/2006/vcard/ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+            <rdf:Description rdf:about="#meta_M_mt_f25ff329c6">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="https://identifiers.org/chebi/CHEBI:16467"/>
+                  <rdf:li rdf:resource="https://identifiers.org/pubchem.compound/28782"/>
+                  <rdf:li rdf:resource="https://identifiers.org/pubchem.compound/6322"/>
+                  <rdf:li rdf:resource="https://identifiers.org/chembl.compound/CHEMBL1485"/>
+                  <rdf:li rdf:resource="https://identifiers.org/inchikey/InChIKey=ODKSFYDXXFIFQN-BYPYZUCNSA-N"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+      </species>
+    </listOfSpecies>
+    <listOfParameters>
+      <parameter sboTerm="SBO:0000626" id="cobra_default_lb" value="-1000" constant="true"/>
+      <parameter sboTerm="SBO:0000626" id="cobra_default_ub" value="1000" constant="true"/>
+      <parameter sboTerm="SBO:0000626" id="cobra_0_bound" value="0" constant="true"/>
+      <parameter sboTerm="SBO:0000626" id="minus_inf" value="-INF" constant="true"/>
+      <parameter sboTerm="SBO:0000626" id="plus_inf" value="INF" constant="true"/>
+    </listOfParameters>
+    <listOfReactions>
+      <reaction metaid="meta_R_rx_0e0c18dea9" sboTerm="SBO:0000176" id="R_rx_0e0c18dea9" name="BR142" reversible="true" fast="false" fbc:lowerFluxBound="cobra_default_lb" fbc:upperFluxBound="cobra_default_ub">
+        <notes>
+          <html xmlns="http://www.w3.org/1999/xhtml">
+            <p>main_metabolites: mt_75d2d46d2f, mt_98318d535e</p>
+            <p>ec_numbers: 6.3.4.5</p>
+            <p>ec_directions: 6.3.4.5=both</p>
+            <p>preferred_ec: 6.3.4.5</p>
+          </html>
+        </notes>
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:vCard4="http://www.w3.org/2006/vcard/ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+            <rdf:Description rdf:about="#meta_R_rx_0e0c18dea9">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="https://identifiers.org/ec-code/6.3.4.5"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+        <listOfReactants>
+          <speciesReference species="M_mt_0de283c3a3" stoichiometry="1" constant="true"/>
+          <speciesReference species="M_mt_75d2d46d2f" stoichiometry="1" constant="true"/>
+          <speciesReference species="M_mt_82e3f482bf" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="M_mt_7fdd97c6e1" stoichiometry="1" constant="true"/>
+          <speciesReference species="M_mt_98318d535e" stoichiometry="1" constant="true"/>
+          <speciesReference species="M_mt_bdcc7261de" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+      </reaction>
+      <reaction metaid="meta_R_rx_189c95a8a7" sboTerm="SBO:0000176" id="R_rx_189c95a8a7" name="BR47825" reversible="true" fast="false" fbc:lowerFluxBound="cobra_default_lb" fbc:upperFluxBound="cobra_default_ub">
+        <notes>
+          <html xmlns="http://www.w3.org/1999/xhtml">
+            <p>main_metabolites: mt_73617a0182, mt_a582428d9f</p>
+            <p>ec_numbers: 2.7.2.2</p>
+            <p>ec_directions: 2.7.2.2=both</p>
+            <p>preferred_ec: 2.7.2.2</p>
+            <p>brenda_reaction_ids: BR47825</p>
+          </html>
+        </notes>
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:vCard4="http://www.w3.org/2006/vcard/ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+            <rdf:Description rdf:about="#meta_R_rx_189c95a8a7">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="https://identifiers.org/ec-code/2.7.2.2"/>
+                  <rdf:li rdf:resource="https://identifiers.org/kegg.reaction/R00150"/>
+                  <rdf:li rdf:resource="https://identifiers.org/metacyc.reaction/CARBAMATE-KINASE-RXN"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+        <listOfReactants>
+          <speciesReference species="M_mt_74828531e0" stoichiometry="1" constant="true"/>
+          <speciesReference species="M_mt_82e3f482bf" stoichiometry="1" constant="true"/>
+          <speciesReference species="M_mt_a582428d9f" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="M_mt_1b1223fff4" stoichiometry="1" constant="true"/>
+          <speciesReference species="M_mt_7133524672" stoichiometry="1" constant="true"/>
+          <speciesReference species="M_mt_73617a0182" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+      </reaction>
+      <reaction metaid="meta_R_rx_41bad020b6" sboTerm="SBO:0000176" id="R_rx_41bad020b6" name="BR19238" reversible="true" fast="false" fbc:lowerFluxBound="cobra_default_lb" fbc:upperFluxBound="cobra_default_ub">
+        <notes>
+          <html xmlns="http://www.w3.org/1999/xhtml">
+            <p>main_metabolites: mt_75d2d46d2f, mt_9e164fa705</p>
+            <p>ec_numbers: 3.5.1.20, 3.5.1.6, 3.5.3.27</p>
+            <p>ec_directions: 3.5.1.20=both; 3.5.1.6=both; 3.5.3.27=both</p>
+            <p>preferred_ec: 3.5.1.20</p>
+            <p>brenda_reaction_ids: BR19238</p>
+          </html>
+        </notes>
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:vCard4="http://www.w3.org/2006/vcard/ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+            <rdf:Description rdf:about="#meta_R_rx_41bad020b6">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="https://identifiers.org/ec-code/3.5.1.20"/>
+                  <rdf:li rdf:resource="https://identifiers.org/ec-code/3.5.1.6"/>
+                  <rdf:li rdf:resource="https://identifiers.org/ec-code/3.5.3.27"/>
+                  <rdf:li rdf:resource="https://identifiers.org/kegg.reaction/R00665"/>
+                  <rdf:li rdf:resource="https://identifiers.org/sabiork.reaction/1045"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+        <listOfReactants>
+          <speciesReference species="M_mt_1b1223fff4" stoichiometry="1" constant="true"/>
+          <speciesReference species="M_mt_75d2d46d2f" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="M_mt_9cf23c7e50" stoichiometry="1" constant="true"/>
+          <speciesReference species="M_mt_9e164fa705" stoichiometry="1" constant="true"/>
+          <speciesReference species="M_mt_a582428d9f" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+      </reaction>
+      <reaction metaid="meta_R_rx_56b84e5a3a" sboTerm="SBO:0000176" id="R_rx_56b84e5a3a" name="BR3431" reversible="true" fast="false" fbc:lowerFluxBound="cobra_default_lb" fbc:upperFluxBound="cobra_default_ub">
+        <notes>
+          <html xmlns="http://www.w3.org/1999/xhtml">
+            <p>main_metabolites: mt_98318d535e, mt_f25ff329c6</p>
+            <p>ec_numbers: 4.3.2.1, 4.3.2.2</p>
+            <p>ec_directions: 4.3.2.1=both; 4.3.2.2=both</p>
+            <p>preferred_ec: 4.3.2.1</p>
+            <p>brenda_reaction_ids: BR3431</p>
+          </html>
+        </notes>
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:vCard4="http://www.w3.org/2006/vcard/ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+            <rdf:Description rdf:about="#meta_R_rx_56b84e5a3a">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="https://identifiers.org/ec-code/4.3.2.1"/>
+                  <rdf:li rdf:resource="https://identifiers.org/ec-code/4.3.2.2"/>
+                  <rdf:li rdf:resource="https://identifiers.org/kegg.reaction/R01086"/>
+                  <rdf:li rdf:resource="https://identifiers.org/metacyc.reaction/ARGSUCCINLYA-RXN"/>
+                  <rdf:li rdf:resource="https://identifiers.org/sabiork.reaction/573"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+        <listOfReactants>
+          <speciesReference species="M_mt_98318d535e" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="M_mt_6ea7392d87" stoichiometry="1" constant="true"/>
+          <speciesReference species="M_mt_f25ff329c6" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+      </reaction>
+      <reaction metaid="meta_R_rx_66a617511c" sboTerm="SBO:0000176" id="R_rx_66a617511c" name="BR19260" reversible="true" fast="false" fbc:lowerFluxBound="cobra_default_lb" fbc:upperFluxBound="cobra_default_ub">
+        <notes>
+          <html xmlns="http://www.w3.org/1999/xhtml">
+            <p>main_metabolites: mt_9e164fa705, mt_e5dc9628b1, mt_f25ff329c6</p>
+            <p>ec_numbers: 3.5.3.1, 3.5.3.10, 3.5.3.7</p>
+            <p>ec_directions: 3.5.3.1=forward; 3.5.3.10=both; 3.5.3.7=both</p>
+            <p>preferred_ec: 3.5.3.1</p>
+            <p>brenda_reaction_ids: BR19260</p>
+          </html>
+        </notes>
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:vCard4="http://www.w3.org/2006/vcard/ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+            <rdf:Description rdf:about="#meta_R_rx_66a617511c">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="https://identifiers.org/ec-code/3.5.3.1"/>
+                  <rdf:li rdf:resource="https://identifiers.org/ec-code/3.5.3.10"/>
+                  <rdf:li rdf:resource="https://identifiers.org/ec-code/3.5.3.7"/>
+                  <rdf:li rdf:resource="https://identifiers.org/kegg.reaction/R00551"/>
+                  <rdf:li rdf:resource="https://identifiers.org/metacyc.reaction/ARGINASE-RXN"/>
+                  <rdf:li rdf:resource="https://identifiers.org/sabiork.reaction/574"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+        <listOfReactants>
+          <speciesReference species="M_mt_1b1223fff4" stoichiometry="1" constant="true"/>
+          <speciesReference species="M_mt_f25ff329c6" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="M_mt_9e164fa705" stoichiometry="1" constant="true"/>
+          <speciesReference species="M_mt_e5dc9628b1" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+      </reaction>
+      <reaction metaid="meta_R_rx_68b42c436c" sboTerm="SBO:0000176" id="R_rx_68b42c436c" name="BR43950" reversible="true" fast="false" fbc:lowerFluxBound="cobra_default_lb" fbc:upperFluxBound="cobra_default_ub">
+        <notes>
+          <html xmlns="http://www.w3.org/1999/xhtml">
+            <p>main_metabolites: mt_73617a0182, mt_75d2d46d2f, mt_9e164fa705</p>
+            <p>ec_numbers: 2.1.3.3, 2.1.3.6</p>
+            <p>ec_directions: 2.1.3.3=both; 2.1.3.6=both</p>
+            <p>preferred_ec: 2.1.3.3</p>
+            <p>brenda_reaction_ids: BR43950</p>
+          </html>
+        </notes>
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:vCard4="http://www.w3.org/2006/vcard/ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+            <rdf:Description rdf:about="#meta_R_rx_68b42c436c">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="https://identifiers.org/ec-code/2.1.3.3"/>
+                  <rdf:li rdf:resource="https://identifiers.org/ec-code/2.1.3.6"/>
+                  <rdf:li rdf:resource="https://identifiers.org/kegg.reaction/R01398"/>
+                  <rdf:li rdf:resource="https://identifiers.org/sabiork.reaction/98"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+        <listOfReactants>
+          <speciesReference species="M_mt_73617a0182" stoichiometry="1" constant="true"/>
+          <speciesReference species="M_mt_9e164fa705" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="M_mt_3577006728" stoichiometry="1" constant="true"/>
+          <speciesReference species="M_mt_75d2d46d2f" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+      </reaction>
+      <reaction metaid="meta_R_rx_a6d6f13f52" sboTerm="SBO:0000176" id="R_rx_a6d6f13f52" name="BS369145" reversible="false" fast="false" fbc:lowerFluxBound="cobra_0_bound" fbc:upperFluxBound="cobra_default_ub">
+        <notes>
+          <html xmlns="http://www.w3.org/1999/xhtml">
+            <p>main_metabolites: mt_73617a0182, mt_a582428d9f</p>
+            <p>ec_numbers: 6.3.4.16</p>
+            <p>ec_directions: 6.3.4.16=forward</p>
+            <p>preferred_ec: 6.3.4.16</p>
+            <p>brenda_reaction_ids: BS369145</p>
+          </html>
+        </notes>
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:vCard4="http://www.w3.org/2006/vcard/ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+            <rdf:Description rdf:about="#meta_R_rx_a6d6f13f52">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="https://identifiers.org/ec-code/6.3.4.16"/>
+                  <rdf:li rdf:resource="https://identifiers.org/kegg.reaction/R00149"/>
+                  <rdf:li rdf:resource="https://identifiers.org/sabiork.reaction/715"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+        <listOfReactants>
+          <speciesReference species="M_mt_1b1223fff4" stoichiometry="1" constant="true"/>
+          <speciesReference species="M_mt_82e3f482bf" stoichiometry="1" constant="true"/>
+          <speciesReference species="M_mt_9cf23c7e50" stoichiometry="1" constant="true"/>
+          <speciesReference species="M_mt_a582428d9f" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="M_mt_3577006728" stoichiometry="1" constant="true"/>
+          <speciesReference species="M_mt_7133524672" stoichiometry="1" constant="true"/>
+          <speciesReference species="M_mt_73617a0182" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+      </reaction>
+      </listOfReactions>
+    <groups:listOfGroups>
+      <groups:group metaid="meta_G_group_ec_2_1_3_3" groups:id="G_group_ec_2_1_3_3" groups:name="EC 2.1.3.3 ornithine carbamoyltransferase" groups:kind="classification">
+        <notes>
+          <html xmlns="http://www.w3.org/1999/xhtml">
+            <p>ec_id: ec_2_1_3_3</p>
+            <p>preferred_for: rx_68b42c436c</p>
+          </html>
+        </notes>
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:vCard4="http://www.w3.org/2006/vcard/ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+            <rdf:Description rdf:about="#meta_G_group_ec_2_1_3_3">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="https://identifiers.org/ec-code/2.1.3.3"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+        <groups:listOfMembers>
+          <groups:member groups:name="BR43950" groups:idRef="R_rx_68b42c436c"/>
+        </groups:listOfMembers>
+      </groups:group>
+      <groups:group metaid="meta_G_group_ec_2_1_3_6" groups:id="G_group_ec_2_1_3_6" groups:name="EC 2.1.3.6 putrescine carbamoyltransferase" groups:kind="classification">
+        <notes>
+          <html xmlns="http://www.w3.org/1999/xhtml">
+            <p>ec_id: ec_2_1_3_6</p>
+          </html>
+        </notes>
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:vCard4="http://www.w3.org/2006/vcard/ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+            <rdf:Description rdf:about="#meta_G_group_ec_2_1_3_6">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="https://identifiers.org/ec-code/2.1.3.6"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+        <groups:listOfMembers>
+          <groups:member groups:name="BR43950" groups:idRef="R_rx_68b42c436c"/>
+        </groups:listOfMembers>
+      </groups:group>
+      <groups:group metaid="meta_G_group_ec_2_7_2_2" groups:id="G_group_ec_2_7_2_2" groups:name="EC 2.7.2.2 carbamate kinase" groups:kind="classification">
+        <notes>
+          <html xmlns="http://www.w3.org/1999/xhtml">
+            <p>ec_id: ec_2_7_2_2</p>
+            <p>preferred_for: rx_189c95a8a7</p>
+          </html>
+        </notes>
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:vCard4="http://www.w3.org/2006/vcard/ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+            <rdf:Description rdf:about="#meta_G_group_ec_2_7_2_2">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="https://identifiers.org/ec-code/2.7.2.2"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+        <groups:listOfMembers>
+          <groups:member groups:name="BR47825" groups:idRef="R_rx_189c95a8a7"/>
+        </groups:listOfMembers>
+      </groups:group>
+      <groups:group metaid="meta_G_group_ec_3_5_1_20" groups:id="G_group_ec_3_5_1_20" groups:name="EC 3.5.1.20 citrullinase" groups:kind="classification">
+        <notes>
+          <html xmlns="http://www.w3.org/1999/xhtml">
+            <p>ec_id: ec_3_5_1_20</p>
+            <p>preferred_for: rx_41bad020b6</p>
+          </html>
+        </notes>
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:vCard4="http://www.w3.org/2006/vcard/ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+            <rdf:Description rdf:about="#meta_G_group_ec_3_5_1_20">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="https://identifiers.org/ec-code/3.5.1.20"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+        <groups:listOfMembers>
+          <groups:member groups:name="BR19238" groups:idRef="R_rx_41bad020b6"/>
+        </groups:listOfMembers>
+      </groups:group>
+      <groups:group metaid="meta_G_group_ec_3_5_1_4" groups:id="G_group_ec_3_5_1_4" groups:name="EC 3.5.1.4 amidase" groups:kind="classification">
+        <notes>
+          <html xmlns="http://www.w3.org/1999/xhtml">
+            <p>ec_id: ec_3_5_1_4</p>
+          </html>
+        </notes>
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:vCard4="http://www.w3.org/2006/vcard/ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+            <rdf:Description rdf:about="#meta_G_group_ec_3_5_1_4">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="https://identifiers.org/ec-code/3.5.1.4"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+        </groups:group>
+      <groups:group metaid="meta_G_group_ec_3_5_1_5" groups:id="G_group_ec_3_5_1_5" groups:name="EC 3.5.1.5 urease" groups:kind="classification">
+        <notes>
+          <html xmlns="http://www.w3.org/1999/xhtml">
+            <p>ec_id: ec_3_5_1_5</p>
+            <p>preferred_for: rx_fe4c1635af</p>
+          </html>
+        </notes>
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:vCard4="http://www.w3.org/2006/vcard/ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+            <rdf:Description rdf:about="#meta_G_group_ec_3_5_1_5">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="https://identifiers.org/ec-code/3.5.1.5"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+        </groups:group>
+      <groups:group metaid="meta_G_group_ec_3_5_1_54" groups:id="G_group_ec_3_5_1_54" groups:name="EC 3.5.1.54 allophanate hydrolase" groups:kind="classification">
+        <notes>
+          <html xmlns="http://www.w3.org/1999/xhtml">
+            <p>ec_id: ec_3_5_1_54</p>
+            <p>preferred_for: rx_8bc6940100</p>
+          </html>
+        </notes>
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:vCard4="http://www.w3.org/2006/vcard/ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+            <rdf:Description rdf:about="#meta_G_group_ec_3_5_1_54">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="https://identifiers.org/ec-code/3.5.1.54"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+        </groups:group>
+      <groups:group metaid="meta_G_group_ec_3_5_1_6" groups:id="G_group_ec_3_5_1_6" groups:name="EC 3.5.1.6 beta-ureidopropionase" groups:kind="classification">
+        <notes>
+          <html xmlns="http://www.w3.org/1999/xhtml">
+            <p>ec_id: ec_3_5_1_6</p>
+          </html>
+        </notes>
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:vCard4="http://www.w3.org/2006/vcard/ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+            <rdf:Description rdf:about="#meta_G_group_ec_3_5_1_6">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="https://identifiers.org/ec-code/3.5.1.6"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+        <groups:listOfMembers>
+          <groups:member groups:name="BR19238" groups:idRef="R_rx_41bad020b6"/>
+        </groups:listOfMembers>
+      </groups:group>
+      <groups:group metaid="meta_G_group_ec_3_5_3_1" groups:id="G_group_ec_3_5_3_1" groups:name="EC 3.5.3.1 arginase" groups:kind="classification">
+        <notes>
+          <html xmlns="http://www.w3.org/1999/xhtml">
+            <p>ec_id: ec_3_5_3_1</p>
+            <p>preferred_for: rx_66a617511c</p>
+          </html>
+        </notes>
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:vCard4="http://www.w3.org/2006/vcard/ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+            <rdf:Description rdf:about="#meta_G_group_ec_3_5_3_1">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="https://identifiers.org/ec-code/3.5.3.1"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+        <groups:listOfMembers>
+          <groups:member groups:name="BR19260" groups:idRef="R_rx_66a617511c"/>
+        </groups:listOfMembers>
+      </groups:group>
+      <groups:group metaid="meta_G_group_ec_3_5_3_10" groups:id="G_group_ec_3_5_3_10" groups:name="EC 3.5.3.10 D-arginase" groups:kind="classification">
+        <notes>
+          <html xmlns="http://www.w3.org/1999/xhtml">
+            <p>ec_id: ec_3_5_3_10</p>
+          </html>
+        </notes>
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:vCard4="http://www.w3.org/2006/vcard/ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+            <rdf:Description rdf:about="#meta_G_group_ec_3_5_3_10">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="https://identifiers.org/ec-code/3.5.3.10"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+        <groups:listOfMembers>
+          <groups:member groups:name="BR19260" groups:idRef="R_rx_66a617511c"/>
+        </groups:listOfMembers>
+      </groups:group>
+      <groups:group metaid="meta_G_group_ec_3_5_3_27" groups:id="G_group_ec_3_5_3_27" groups:name="EC 3.5.3.27 arginine dihydrolase" groups:kind="classification">
+        <notes>
+          <html xmlns="http://www.w3.org/1999/xhtml">
+            <p>ec_id: ec_3_5_3_27</p>
+          </html>
+        </notes>
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:vCard4="http://www.w3.org/2006/vcard/ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+            <rdf:Description rdf:about="#meta_G_group_ec_3_5_3_27">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="https://identifiers.org/ec-code/3.5.3.27"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+        <groups:listOfMembers>
+          <groups:member groups:name="BR19238" groups:idRef="R_rx_41bad020b6"/>
+        </groups:listOfMembers>
+      </groups:group>
+      <groups:group metaid="meta_G_group_ec_3_5_3_7" groups:id="G_group_ec_3_5_3_7" groups:name="EC 3.5.3.7 guanidinobutyrase" groups:kind="classification">
+        <notes>
+          <html xmlns="http://www.w3.org/1999/xhtml">
+            <p>ec_id: ec_3_5_3_7</p>
+          </html>
+        </notes>
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:vCard4="http://www.w3.org/2006/vcard/ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+            <rdf:Description rdf:about="#meta_G_group_ec_3_5_3_7">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="https://identifiers.org/ec-code/3.5.3.7"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+        <groups:listOfMembers>
+          <groups:member groups:name="BR19260" groups:idRef="R_rx_66a617511c"/>
+        </groups:listOfMembers>
+      </groups:group>
+      <groups:group metaid="meta_G_group_ec_4_3_2_1" groups:id="G_group_ec_4_3_2_1" groups:name="EC 4.3.2.1 argininosuccinate lyase" groups:kind="classification">
+        <notes>
+          <html xmlns="http://www.w3.org/1999/xhtml">
+            <p>ec_id: ec_4_3_2_1</p>
+            <p>preferred_for: rx_56b84e5a3a</p>
+          </html>
+        </notes>
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:vCard4="http://www.w3.org/2006/vcard/ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+            <rdf:Description rdf:about="#meta_G_group_ec_4_3_2_1">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="https://identifiers.org/ec-code/4.3.2.1"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+        <groups:listOfMembers>
+          <groups:member groups:name="BR3431" groups:idRef="R_rx_56b84e5a3a"/>
+        </groups:listOfMembers>
+      </groups:group>
+      <groups:group metaid="meta_G_group_ec_4_3_2_2" groups:id="G_group_ec_4_3_2_2" groups:name="EC 4.3.2.2 adenylosuccinate lyase" groups:kind="classification">
+        <notes>
+          <html xmlns="http://www.w3.org/1999/xhtml">
+            <p>ec_id: ec_4_3_2_2</p>
+          </html>
+        </notes>
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:vCard4="http://www.w3.org/2006/vcard/ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+            <rdf:Description rdf:about="#meta_G_group_ec_4_3_2_2">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="https://identifiers.org/ec-code/4.3.2.2"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+        <groups:listOfMembers>
+          <groups:member groups:name="BR3431" groups:idRef="R_rx_56b84e5a3a"/>
+        </groups:listOfMembers>
+      </groups:group>
+      <groups:group metaid="meta_G_group_ec_6_3_4_16" groups:id="G_group_ec_6_3_4_16" groups:name="EC 6.3.4.16 carbamoyl-phosphate synthase (ammonia)" groups:kind="classification">
+        <notes>
+          <html xmlns="http://www.w3.org/1999/xhtml">
+            <p>ec_id: ec_6_3_4_16</p>
+            <p>preferred_for: rx_a6d6f13f52</p>
+          </html>
+        </notes>
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:vCard4="http://www.w3.org/2006/vcard/ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+            <rdf:Description rdf:about="#meta_G_group_ec_6_3_4_16">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="https://identifiers.org/ec-code/6.3.4.16"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+        <groups:listOfMembers>
+          <groups:member groups:name="BS369145" groups:idRef="R_rx_a6d6f13f52"/>
+        </groups:listOfMembers>
+      </groups:group>
+      <groups:group metaid="meta_G_group_ec_6_3_4_5" groups:id="G_group_ec_6_3_4_5" groups:name="EC 6.3.4.5 argininosuccinate synthase" groups:kind="classification">
+        <notes>
+          <html xmlns="http://www.w3.org/1999/xhtml">
+            <p>ec_id: ec_6_3_4_5</p>
+            <p>preferred_for: rx_0e0c18dea9</p>
+          </html>
+        </notes>
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:vCard4="http://www.w3.org/2006/vcard/ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+            <rdf:Description rdf:about="#meta_G_group_ec_6_3_4_5">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="https://identifiers.org/ec-code/6.3.4.5"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+        <groups:listOfMembers>
+          <groups:member groups:name="BR142" groups:idRef="R_rx_0e0c18dea9"/>
+        </groups:listOfMembers>
+      </groups:group>
+      <groups:group metaid="meta_G_group_ec_6_3_4_6" groups:id="G_group_ec_6_3_4_6" groups:name="EC 6.3.4.6 urea carboxylase" groups:kind="classification">
+        <notes>
+          <html xmlns="http://www.w3.org/1999/xhtml">
+            <p>ec_id: ec_6_3_4_6</p>
+            <p>preferred_for: rx_8701f9a5ef</p>
+          </html>
+        </notes>
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:vCard4="http://www.w3.org/2006/vcard/ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+            <rdf:Description rdf:about="#meta_G_group_ec_6_3_4_6">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="https://identifiers.org/ec-code/6.3.4.6"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+        </groups:group>
+      <groups:group metaid="meta_G_group_pw_2b5fe946" sboTerm="SBO:0000633" groups:id="G_group_pw_2b5fe946" groups:name="urea cycle" groups:kind="partonomy">
+        <groups:listOfMembers>
+          <groups:member groups:name="BR19260" groups:idRef="R_rx_66a617511c"/>
+          <groups:member groups:name="BS369145" groups:idRef="R_rx_a6d6f13f52"/>
+          <groups:member groups:name="BR47825" groups:idRef="R_rx_189c95a8a7"/>
+          <groups:member groups:name="BR3431" groups:idRef="R_rx_56b84e5a3a"/>
+          <groups:member groups:name="BR142" groups:idRef="R_rx_0e0c18dea9"/>
+          <groups:member groups:name="BR43950" groups:idRef="R_rx_68b42c436c"/>
+          <groups:member groups:name="BR19238" groups:idRef="R_rx_41bad020b6"/>
+          </groups:listOfMembers>
+      </groups:group>
+    </groups:listOfGroups>
+  </model>
+</sbml>
