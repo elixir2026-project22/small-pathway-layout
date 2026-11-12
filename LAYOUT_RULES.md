@@ -6,7 +6,7 @@ option or code section where it can be changed.
 
 ---
 
-## A. Hard rules (never broken)
+## A. Hard rules
 
 1. **Reproducible.** The same input with the same settings always gives the same picture. There is no
    randomness; even the annealing step uses a fixed seed. Every result carries `pathway_hash`,

@@ -2792,6 +2792,10 @@ def place_labels(L: Layout, ctx, attach, S, side_rot, prev: Previous, lab_pref: 
         keep = tg in prev.labels and dist(add(prev.labels[tg], (w / 2, h / 2)), c) < rr + w / 2 + 30
         if keep:   # previous label still next to its object -> keep it exactly
             x, y = prev.labels[tg]
+            # it had a leader line before if it sits clearly away from its node: keep that line too
+            gx = max(x - c[0], 0.0, c[0] - (x + w))
+            gy = max(y - c[1], 0.0, c[1] - (y + h))
+            leader = math.hypot(gx, gy) > rr + 3 + 3 * 6 - 2       # same as ring >= 3 below
         elif isinstance(fixed, (list, tuple)):
             x, y = fixed
         elif isinstance(fixed, str) and fixed in SLOT_DIRS:
